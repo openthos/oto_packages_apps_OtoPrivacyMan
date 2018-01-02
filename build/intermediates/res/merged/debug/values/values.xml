@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="app_ops_categories">
+        <item>@string/app_ops_categories_location</item>
+        <item>@string/app_ops_categories_personal</item>
+        <item>@string/app_ops_categories_messaging</item>
+        <item>@string/app_ops_categories_media</item>
+        <item>@string/app_ops_categories_device</item>
+        <item>@string/app_ops_categories_bootup</item>
+        <item>@string/app_ops_categories_su</item>
+    </string-array>
+    <string-array name="app_ops_permissions">
+        <item>@string/xperia_allowed</item>
+        <item>@string/xperia_ignored</item>
+        <item>@string/xperia_always_ask</item>
+    </string-array>
+    <string-array name="variants">
+        <item>@string/automatic</item>
+        <item>AOSP</item>
+        <item>CyanogenMod</item>
+        <item>HTC</item>
+        <item>LG</item>
+        <item>Minimal</item>
+        <item>OmniROM</item>
+        <item>Oppo</item>
+        <item>Samsung</item>
+        <item>Sony.JellyBean</item>
+        <item>Sony.KitKat</item>
+    </string-array>
+    <item name="is_sdk_ge_19" type="bool">false</item>
+    <bool name="theme_default_is_light">false</bool>
+    <dimen name="icon_dropdown_size">48dip</dimen>
+    <dimen name="icon_spinner_size">32dip</dimen>
+    <item name="app_ops_settings" type="id"/>
+    <string name="about">About</string>
+    <string name="advanced_settings_summary">Changing these settings may break AppOpsXposed. Use with care!</string>
+    <string name="advanced_settings_title">Advanced</string>
+    <string name="aox_settings">AppOpsXposed Settings</string>
+    <string name="app_ops_categories_bootup">Bootup</string>
+    <string name="app_ops_categories_device">Device</string>
+    <string name="app_ops_categories_location">Location</string>
+    <string name="app_ops_categories_media">Media</string>
+    <string name="app_ops_categories_messaging">Messaging</string>
+    <string name="app_ops_categories_personal">Personal</string>
+    <string name="app_ops_categories_su">Root</string>
+    <string name="app_ops_labels_access_notifications">Access notifications</string>
+    <string name="app_ops_labels_activate_vpn">Activate VPN</string>
+    <string name="app_ops_labels_add_voicemail">@string/app_ops_summaries_add_voicemail</string>
+    <string name="app_ops_labels_alarm_wakeup">Wake up</string>
+    <string name="app_ops_labels_assist_screenshot">@string/app_ops_summaries_assist_screenshot</string>
+    <string name="app_ops_labels_assist_structure">@string/app_ops_summaries_assist_structure</string>
+    <string name="app_ops_labels_audio_alarm_volume">Alarm volume</string>
+    <string name="app_ops_labels_audio_bluetooth_volume">Bluetooth volume</string>
+    <string name="app_ops_labels_audio_master_volume">Master volume</string>
+    <string name="app_ops_labels_audio_media_volume">Media volume</string>
+    <string name="app_ops_labels_audio_notification_volume">Notification volume</string>
+    <string name="app_ops_labels_audio_ring_volume">Ring volume</string>
+    <string name="app_ops_labels_audio_voice_volume">Voice volume</string>
+    <string name="app_ops_labels_auto_start">Auto start</string>
+    <string name="app_ops_labels_bluetooth_change">Bluetooth change</string>
+    <string name="app_ops_labels_body_sensors">@string/app_ops_summaries_body_sensors</string>
+    <string name="app_ops_labels_boot_completed">Run at startup</string>
+    <string name="app_ops_labels_call_phone">Call phone</string>
+    <string name="app_ops_labels_camera">Camera</string>
+    <string name="app_ops_labels_cell_scan">@string/app_ops_labels_location</string>
+    <string name="app_ops_labels_coarse_location">@string/app_ops_labels_location</string>
+    <string name="app_ops_labels_data_connect_change">Data change</string>
+    <string name="app_ops_labels_delete_call_log">Delete call log</string>
+    <string name="app_ops_labels_delete_contacts">Delete contacts</string>
+    <string name="app_ops_labels_delete_mms">Delete MMS</string>
+    <string name="app_ops_labels_delete_sms">Delete SMS</string>
+    <string name="app_ops_labels_fine_location">@string/app_ops_labels_location</string>
+    <string name="app_ops_labels_get_accounts">Get accounts</string>
+    <string name="app_ops_labels_get_usage_stats">Get app usage stats</string>
+    <string name="app_ops_labels_gps">@string/app_ops_labels_location</string>
+    <string name="app_ops_labels_location">Location</string>
+    <string name="app_ops_labels_make_call">@string/app_ops_summaries_make_call</string>
+    <string name="app_ops_labels_mock_location">Mock location</string>
+    <string name="app_ops_labels_monitor_high_power_location">@string/app_ops_labels_location</string>
+    <string name="app_ops_labels_monitor_location">@string/app_ops_labels_location</string>
+    <string name="app_ops_labels_mute_microphone">Mute/unmute microphone</string>
+    <string name="app_ops_labels_neighboring_cells">Location</string>
+    <string name="app_ops_labels_nfc_change">NFC change</string>
+    <string name="app_ops_labels_play_audio">Play audio</string>
+    <string name="app_ops_labels_post_notification">Post notification</string>
+    <string name="app_ops_labels_project_media">Project media</string>
+    <string name="app_ops_labels_read_calendar">Read calendar</string>
+    <string name="app_ops_labels_read_call_log">Read call log</string>
+    <string name="app_ops_labels_read_cell_broadcasts">@string/app_ops_summaries_read_cell_broadcasts</string>
+    <string name="app_ops_labels_read_clipboard">Read clipboard</string>
+    <string name="app_ops_labels_read_contacts">Read contacts</string>
+    <string name="app_ops_labels_read_external_storage">Read external storage</string>
+    <string name="app_ops_labels_read_icc_sms">@string/app_ops_labels_read_sms</string>
+    <string name="app_ops_labels_read_mms">Read MMS</string>
+    <string name="app_ops_labels_read_phone_state">@string/app_ops_summaries_read_phone_state</string>
+    <string name="app_ops_labels_read_sms">Read SMS DB</string>
+    <string name="app_ops_labels_receive_emergency_sms">@string/app_ops_labels_receive_sms</string>
+    <string name="app_ops_labels_receive_mms">Receive MMS</string>
+    <string name="app_ops_labels_receive_sms">Receive SMS</string>
+    <string name="app_ops_labels_receive_wap_push">@string/app_ops_labels_receive_sms</string>
+    <string name="app_ops_labels_record_audio">Record audio</string>
+    <string name="app_ops_labels_send_mms">Send MMS</string>
+    <string name="app_ops_labels_send_sms">Send SMS</string>
+    <string name="app_ops_labels_su">Root access</string>
+    <string name="app_ops_labels_system_alert_window">Draw on top</string>
+    <string name="app_ops_labels_take_audio_focus">Audio focus</string>
+    <string name="app_ops_labels_take_media_buttons">Media buttons</string>
+    <string name="app_ops_labels_toast_window">Display toasts</string>
+    <string name="app_ops_labels_turn_screen_on">Turn screen on</string>
+    <string name="app_ops_labels_use_fingerprint">@string/app_ops_summaries_use_fingerprint</string>
+    <string name="app_ops_labels_use_sip">@string/app_ops_summaries_use_sip</string>
+    <string name="app_ops_labels_vibrate">Vibrate</string>
+    <string name="app_ops_labels_wake_lock">Keep awake</string>
+    <string name="app_ops_labels_wifi_change">Wi\u2011Fi change</string>
+    <string name="app_ops_labels_wifi_scan">@string/app_ops_labels_location</string>
+    <string name="app_ops_labels_write_calendar">Modify calendar</string>
+    <string name="app_ops_labels_write_call_log">Modify call log</string>
+    <string name="app_ops_labels_write_clipboard">Modify clipboard</string>
+    <string name="app_ops_labels_write_contacts">Modify contacts</string>
+    <string name="app_ops_labels_write_external_storage">Write to external storage</string>
+    <string name="app_ops_labels_write_icc_sms">@string/app_ops_labels_write_sms</string>
+    <string name="app_ops_labels_write_mms">Write MMS</string>
+    <string name="app_ops_labels_write_settings">Modify settings</string>
+    <string name="app_ops_labels_write_sms">Write SMS DB</string>
+    <string name="app_ops_labels_write_wallpaper">@string/app_ops_summaries_write_wallpaper</string>
+    <string name="app_ops_never_used">(Never used)</string>
+    <string name="app_ops_running">Running</string>
+    <string name="app_ops_settings">App ops</string>
+    <string name="app_ops_summaries_access_notifications">access notifications</string>
+    <string name="app_ops_summaries_activate_vpn">activate VPN</string>
+    <string name="app_ops_summaries_add_voicemail">add voicemail</string>
+    <string name="app_ops_summaries_alarm_wakeup">wake up</string>
+    <string name="app_ops_summaries_assist_screenshot">assist screenshot</string>
+    <string name="app_ops_summaries_assist_structure">assist structure</string>
+    <string name="app_ops_summaries_audio_alarm_volume">alarm volume</string>
+    <string name="app_ops_summaries_audio_bluetooth_volume">Bluetooth volume</string>
+    <string name="app_ops_summaries_audio_master_volume">master volume</string>
+    <string name="app_ops_summaries_audio_media_volume">media volume</string>
+    <string name="app_ops_summaries_audio_notification_volume">notification volume</string>
+    <string name="app_ops_summaries_audio_ring_volume">ring volume</string>
+    <string name="app_ops_summaries_audio_voice_volume">voice volume</string>
+    <string name="app_ops_summaries_auto_start">auto start</string>
+    <string name="app_ops_summaries_bluetooth_change">Bluetooth change</string>
+    <string name="app_ops_summaries_body_sensors">use body sensors</string>
+    <string name="app_ops_summaries_boot_completed">run at startup</string>
+    <string name="app_ops_summaries_call_phone">call phone</string>
+    <string name="app_ops_summaries_camera">camera</string>
+    <string name="app_ops_summaries_cell_scan">cell scan</string>
+    <string name="app_ops_summaries_coarse_location">coarse location</string>
+    <string name="app_ops_summaries_data_connect_change">data change</string>
+    <string name="app_ops_summaries_delete_call_log">delete call log</string>
+    <string name="app_ops_summaries_delete_contacts">delete contacts</string>
+    <string name="app_ops_summaries_delete_mms">delete MMS</string>
+    <string name="app_ops_summaries_delete_sms">delete SMS</string>
+    <string name="app_ops_summaries_fine_location">fine location</string>
+    <string name="app_ops_summaries_get_accounts">get accounts</string>
+    <string name="app_ops_summaries_get_usage_stats">get app usage stats</string>
+    <string name="app_ops_summaries_gps">GPS</string>
+    <string name="app_ops_summaries_make_call">make call</string>
+    <string name="app_ops_summaries_mock_location">mock location</string>
+    <string name="app_ops_summaries_monitor_high_power_location">monitor high power location</string>
+    <string name="app_ops_summaries_monitor_location">monitor location</string>
+    <string name="app_ops_summaries_mute_microphone">mute/unmute microphone</string>
+    <string name="app_ops_summaries_neighboring_cells">cell scan</string>
+    <string name="app_ops_summaries_nfc_change">NFC change</string>
+    <string name="app_ops_summaries_play_audio">play audio</string>
+    <string name="app_ops_summaries_post_notification">post notification</string>
+    <string name="app_ops_summaries_project_media">project media</string>
+    <string name="app_ops_summaries_read_calendar">read calendar</string>
+    <string name="app_ops_summaries_read_call_log">read call log</string>
+    <string name="app_ops_summaries_read_cell_broadcasts">read cell broadcasts</string>
+    <string name="app_ops_summaries_read_clipboard">read clipboard</string>
+    <string name="app_ops_summaries_read_contacts">read contacts</string>
+    <string name="app_ops_summaries_read_external_storage">read external storage</string>
+    <string name="app_ops_summaries_read_icc_sms">read ICC SMS</string>
+    <string name="app_ops_summaries_read_mms">read MMS</string>
+    <string name="app_ops_summaries_read_phone_state">read phone state</string>
+    <string name="app_ops_summaries_read_sms">read SMS</string>
+    <string name="app_ops_summaries_receive_emergency_sms">receive emergency SMS</string>
+    <string name="app_ops_summaries_receive_mms">receive MMS</string>
+    <string name="app_ops_summaries_receive_sms">receive SMS</string>
+    <string name="app_ops_summaries_receive_wap_push">receive WAP push</string>
+    <string name="app_ops_summaries_record_audio">record audio</string>
+    <string name="app_ops_summaries_send_mms">send MMS</string>
+    <string name="app_ops_summaries_send_sms">send SMS</string>
+    <string name="app_ops_summaries_su">root access</string>
+    <string name="app_ops_summaries_system_alert_window">draw on top</string>
+    <string name="app_ops_summaries_take_audio_focus">audio focus</string>
+    <string name="app_ops_summaries_take_media_buttons">media buttons</string>
+    <string name="app_ops_summaries_toast_window">display toasts</string>
+    <string name="app_ops_summaries_turn_screen_on">turn screen on</string>
+    <string name="app_ops_summaries_use_fingerprint">use fingerprint</string>
+    <string name="app_ops_summaries_use_sip">use SIP</string>
+    <string name="app_ops_summaries_vibrate">vibrate</string>
+    <string name="app_ops_summaries_wake_lock">keep awake</string>
+    <string name="app_ops_summaries_wifi_change">Wi\u2011Fi change</string>
+    <string name="app_ops_summaries_wifi_scan">Wi\u2011Fi scan</string>
+    <string name="app_ops_summaries_write_calendar">modify calendar</string>
+    <string name="app_ops_summaries_write_call_log">modify call log</string>
+    <string name="app_ops_summaries_write_clipboard">modify clipboard</string>
+    <string name="app_ops_summaries_write_contacts">modify contacts</string>
+    <string name="app_ops_summaries_write_external_storage">write to external storage</string>
+    <string name="app_ops_summaries_write_icc_sms">write ICC SMS</string>
+    <string name="app_ops_summaries_write_mms">write MMS</string>
+    <string name="app_ops_summaries_write_settings">modify settings</string>
+    <string name="app_ops_summaries_write_sms">write SMS</string>
+    <string name="app_ops_summaries_write_wallpaper">write wallpaper</string>
+    <string name="appearance_summary">Customize appearance of AppOpsXposed.</string>
+    <string name="appearance_title">Appearance</string>
+    <string name="automatic">(Automatic)</string>
+    <string name="backup_create_title">Export</string>
+    <string name="backup_file_title">File</string>
+    <string name="backup_restore_title">Import</string>
+    <string name="btn_help">Help</string>
+    <string name="btn_launch">Launch</string>
+    <string name="build_bugreport_summary">Submit via email/Dropbox/Google Drive/etc.; requires root.</string>
+    <string name="build_bugreport_title">Build bug report</string>
+    <string name="building_toast">Building…</string>
+    <string name="cannot_enable">AppOpsXposed is not running as an Xposed module, and Xposed is not installed on your system.</string>
+    <string name="checking_root">Checking root…</string>
+    <string name="compatibility_mode_summary">Use an alternate AppOps implementation to improve compatibility on most devices.</string>
+    <string name="compatibility_mode_title">Compatibility mode</string>
+    <string name="description">Enables AppOps on Android 4.3+ and adds it to the native settings app.</string>
+    <string name="dont_show_again">Don\'t show again</string>
+    <string name="enable_module">AppOpsXposed is not running as an Xposed module; activate it in %1$s!</string>
+    <string name="failed">Failed.</string>
+    <string name="failsafe_mode_summary">Use only the minimum patches required for \"App ops\" to work; in this case, a launcher icon
+	    must be used. Use this if you experience crashes.</string>
+    <string name="failsafe_mode_title">Failsafe mode</string>
+    <string name="hacks_dialog_message">These features are <strong>highly experimental</strong> and may cause your phone to
+	    get stuck in a boot-loop and become unusable. Use <em>only</em> if you know how to disable Xposed (or this module) from
+	    recovery mode or a shell. You have been warned!</string>
+    <string name="hacks_dialog_title">Warning</string>
+    <string name="hacks_summary">Experimental features. Use at your own risk!</string>
+    <string name="hacks_title">Hacks</string>
+    <string name="icon_appinfo_summary">Icon used for the \"App info\" screen.</string>
+    <string name="icon_appinfo_title">App info</string>
+    <string name="icon_settings_summary">Icon used in the \"Settings\" app (if applicable).</string>
+    <string name="icon_settings_title">Settings</string>
+    <string name="icons">Icons</string>
+    <string name="import_export_summary">Import/export settings to/from external storage.</string>
+    <string name="import_export_title">Backup</string>
+    <string name="install_system_app_helper">Install system-app helper (requires root)?</string>
+    <string name="light_theme_summary">@null</string>
+    <string name="light_theme_title">Light theme</string>
+    <string name="must_reboot_device">Must reboot device!</string>
+    <string name="note_icons_summary">Changes to these settings may require a reboot.</string>
+    <string name="note_icons_title">Important</string>
+    <string name="package_updated">Updated</string>
+    <string name="permissions_not_granted">\"%1$s\" permissions were not granted. Note that you have to reboot after
+	    enabling \"%2$s\" or installing as a system app. If this message persists, submit a detailed bug report!</string>
+    <string name="reset_all">Reset all</string>
+    <string name="settings">Settings</string>
+    <string name="show_changed_only_title">Show changed</string>
+    <string name="show_launcher_icon_summary">Show a launcher icon. This is required only if \"App ops\" cannot be launched
+        from your ROM\'s \"Settings\" app.</string>
+    <string name="show_launcher_icon_title">Launcher icon</string>
+    <string name="show_pkg_notifications_summary">Show notifications for newly installed and updated apps.</string>
+    <string name="show_pkg_notifications_title">Notifications</string>
+    <string name="success">Success.</string>
+    <string name="title_force_variant">Force variant</string>
+    <string name="toast_needs_root">This operation requires root.</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="use_hack_boot_completed_summary">Allows you to control whether an app is allowed to
+	    start at boot. This replaces the \"%1$s\" option (which has been merged with the \"%2$s\" option);
+	    if \"%1$s\" is currently disabled for an app, it will not boot if you
+	    enable this setting and reboot your device!
+	</string>
+    <string name="use_hack_boot_completed_title">Add OP_BOOT_COMPLETED</string>
+    <string name="use_hack_fix_prune_summary">Use this if ops are reset on reboot for apps installed on sd card.</string>
+    <string name="use_hack_fix_prune_title">Don\'t prune database</string>
+    <string name="use_hack_pm_crash_summary">Fixes a crash in a system component that prevents \"%1$s\" from loading.</string>
+    <string name="use_hack_pm_crash_title">Fix PackageManager</string>
+    <string name="use_hack_wake_lock_summary">Fixes the \"%1$s"\" option.</string>
+    <string name="use_hack_wake_lock_title">Fix OP_WAKE_LOCK</string>
+    <string name="use_layout_fix_summary">Use a fix that alleviates layout issues in the per-app \"App ops\" screen.</string>
+    <string name="use_layout_fix_title">Layout fix</string>
+    <string name="verbose_logs_summary">Before submitting a bug report, enable this and reboot!</string>
+    <string name="verbose_logs_title">Verbose logs</string>
+    <string name="version_text">version %1$s</string>
+    <string name="will_reboot">Device will reboot!</string>
+    <string name="xperia_allowed">Allowed</string>
+    <string name="xperia_always_ask">Always ask</string>
+    <string name="xperia_ignored">Ignored</string>
+    <string name="xposed_not_installed">The Xposed Installer is not installed on your system and you are running Android 4.4+. \"%1$s\"
+        is likely disabled, but you may try to launch it using the \"%2$s\" button below. Please note that your device must be rooted to install the
+        Xposed Framework.</string>
+    <string name="xposed_settings_warning">These settings have no effect when not running as an Xposed module!</string>
+    <style name="DefaultTheme" parent="@android:style/Theme.DeviceDefault"/>
+    <style name="IconSpinner">
+        <item name="android:background">#ccc</item>
+    </style>
+    <style name="TextAppearance.PagerTabs" parent="@android:style/TextAppearance.DeviceDefault.Small">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

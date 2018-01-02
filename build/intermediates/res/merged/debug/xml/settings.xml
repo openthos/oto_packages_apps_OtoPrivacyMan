@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <CheckBoxPreference android:key="show_launcher_icon"
+        android:summary="@string/show_launcher_icon_summary"
+        android:title="@string/show_launcher_icon_title"
+        android:defaultValue="true" />
+
+    <CheckBoxPreference android:key="show_pkg_notifications"
+        android:title="@string/show_pkg_notifications_title"
+        android:summary="@string/show_pkg_notifications_summary"
+        android:defaultValue="true" />
+
+    <PreferenceScreen
+        android:title="@string/appearance_title"
+        android:summary="@string/appearance_summary">
+
+        <CheckBoxPreference android:key="light_theme"
+            android:title="@string/light_theme_title"
+            android:summary="@string/light_theme_summary"
+            android:defaultValue="@bool/theme_default_is_light" />
+
+        <PreferenceCategory android:title="@string/icons">
+
+            <at.jclehner.appopsxposed.IconPreference android:key="icon_appinfo"
+                android:title="@string/icon_appinfo_title"
+                android:summary="@string/icon_appinfo_summary"
+                android:defaultValue="0" />
+
+            <at.jclehner.appopsxposed.IconPreference android:key="icon_settings"
+                android:title="@string/icon_settings_title"
+                android:summary="@string/icon_settings_summary"
+                android:defaultValue="0" />
+
+            <Preference
+                android:title="@string/note_icons_title"
+                android:summary="@string/note_icons_summary"
+                android:enabled="false" />
+
+        </PreferenceCategory>
+
+    </PreferenceScreen>
+
+    <PreferenceCategory
+        android:title="@string/advanced_settings_title">
+
+        <ListPreference android:key="force_variant"
+            android:title="@string/title_force_variant"
+            android:summary="@string/automatic"
+            android:entries="@array/variants"
+            android:defaultValue="" />
+
+
+
+	    <PreferenceScreen android:key="hacks"
+	        android:title="@string/hacks_title"
+	        android:summary="@string/hacks_summary">
+
+            <CheckBoxPreference android:key="use_hack_fix_prune"
+                android:title="@string/use_hack_fix_prune_title"
+                android:summary="@string/use_hack_fix_prune_summary"
+                android:defaultValue="false" />
+
+	        <CheckBoxPreference android:key="use_hack_boot_completed"
+	            android:title="@string/use_hack_boot_completed_title"
+	            android:summary="@string/use_hack_boot_completed_summary"
+	            android:defaultValue="false" />
+	
+	        <CheckBoxPreference android:key="use_hack_wake_lock"
+	            android:title="@string/use_hack_wake_lock_title"
+	            android:summary="@string/use_hack_wake_lock_summary"
+	            android:defaultValue="false"
+	            android:enabled="@bool/is_sdk_ge_19" />
+
+            <CheckBoxPreference android:key="use_hack_dont_group_ops"
+	            android:title="Do not group ops"
+	            android:summary="More fine grained control over ops. VERY EXPERIMENTAL!"
+	            android:defaultValue="false" />
+
+    	</PreferenceScreen>
+
+       <PreferenceScreen
+            android:title="@string/import_export_title"
+            android:summary="@string/import_export_summary">
+
+            <Preference android:key="backup_create"
+                android:title="@string/backup_create_title" />
+
+            <Preference android:key="backup_restore"
+                android:title="@string/backup_restore_title" />
+
+            <Preference android:key="backup_file"
+                android:title="@string/backup_file_title"
+                android:enabled="false" />
+
+        </PreferenceScreen>
+   
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="@string/about">
+        
+        <Preference android:key="version"
+            android:enabled="false" />
+        
+        <CheckBoxPreference android:key="verbose_logs"
+            android:title="@string/verbose_logs_title"
+            android:summary="@string/verbose_logs_summary"
+            android:defaultValue="false" />
+
+        <Preference android:key="build_bugreport"
+            android:title="@string/build_bugreport_title"
+            android:dependency="verbose_logs"
+            android:summary="@string/build_bugreport_summary" />
+        
+    </PreferenceCategory>
+    
+</PreferenceScreen>

@@ -1,0 +1,122 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="at.jclehner.appopsxposed">
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.GET_APP_OPS_STATS" />
+    <uses-permission android:name="android.permission.UPDATE_APP_OPS_STATS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application android:label="AppOpsXposed"
+        android:name=".AppOpsXposedApp"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher2"
+        android:theme="@style/DefaultTheme">
+        <meta-data android:name="xposedmodule" android:value="true" />
+        <meta-data android:name="xposedminversion" android:value="2.0*" />
+        <meta-data android:name="xposeddescription" android:value="@string/description" />
+
+        <!--  ->
+        <activity
+            android:name="at.jclehner.appopsxposed.DebugActivity"
+            android:label="AppOpsXposed">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-  -->
+
+        <activity
+            android:name=".LauncherActivity"
+            android:label="AppOpsXposed"
+            android:configChanges="orientation|screenSize" />
+
+        <activity
+            android:name=".AppOpsActivity"
+            android:label="AppOpsXposed">
+            <intent-filter>
+                <!-- The "Settings" app in AOSP 4.3 had this -->
+                <action android:name="android.settings.APP_OPS_SETTINGS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".SettingsActivity"
+            android:label="AppOpsXposed"
+            android:configChanges="orientation|screenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".LauncherActivity$HtcActivity2"
+            android:icon="@drawable/ic_appops_sense"
+            android:label="@string/app_ops_settings"
+            android:excludeFromRecents="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.htc.settings.category.PLUGIN_ENTRY" />
+            </intent-filter>
+
+            <meta-data android:name="plugAnchorItem" android:value="apps"/>
+            <meta-data android:name="plugAnchorShift" android:value="0.0"/>
+            <meta-data android:name="plugLaunchType" android:value="activity"/>
+            <meta-data android:name="plugLaunchTarget" android:value="intent:#Intent;component=at.jclehner.appopsxposed/.AppOpsActivity;end"/>
+        </activity>
+
+        <!--
+        <activity
+            android:name=".LauncherActivity$HtcFragment"
+            android:icon="@drawable/ic_appops_sense"
+            android:label="@string/app_ops_settings"
+            android:excludeFromRecents="false"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.htc.settings.category.PLUGIN_ENTRY" />
+            </intent-filter>
+
+            <meta-data android:name="plugAnchorItem" android:value="apps"/>
+            <meta-data android:name="plugAnchorShift" android:value="0.0"/>
+            <meta-data android:name="plugLaunchType" android:value="fragment"/>
+            <meta-data android:name="plugLaunchTarget" android:value="com.android.settings.applications.AppOpsSummary"/>
+        </activity>
+        -->
+
+        <activity-alias
+            android:enabled="true"
+            android:name=".LauncherActivity-Icon"
+            android:icon="@drawable/ic_launcher2"
+            android:label="AppOpsXposed"
+            android:targetActivity=".LauncherActivity">
+           <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="at.jclehner.appopsxposed.files"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/paths" />
+        </provider>
+
+        <receiver
+            android:name=".SystemEventReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

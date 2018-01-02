@@ -1,0 +1,4 @@
+#Tue Jan 02 11:03:03 CST 2018
+base.0=/home/lxx/下载/AppOpsXposed/build/intermediates/transforms/dex/debug/folders/1000/5/slice_1
+renamed.0=classes.dex
+file.0=/home/lxx/下载/AppOpsXposed/build/intermediates/transforms/dex/debug/folders/1000/5/slice_1/classes.dex

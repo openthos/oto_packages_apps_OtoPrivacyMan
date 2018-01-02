@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/xml/paths.xml",
+        "source": "/home/lxx/下载/AppOpsXposed/res/xml/paths.xml"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/xml/settings.xml",
+        "source": "/home/lxx/下载/AppOpsXposed/res/xml/settings.xml"
+    }
+]

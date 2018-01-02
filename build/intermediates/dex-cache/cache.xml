@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/home/lxx/下载/AppOpsXposed/libs/libsuperuser.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="91bd2364f9a823582973008a5eaf613f71601a0e">
+        <dex dex="/home/lxx/下载/AppOpsXposed/build/intermediates/pre-dexed/debug/libsuperuser_dbacee5fcbf4234be4594f64e565c84feb88fd23.jar" />
+    </item>
+
+</items>

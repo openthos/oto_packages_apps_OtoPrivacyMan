@@ -1,0 +1,46 @@
+[
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/layout/app_ops_details_item.xml",
+        "source": "/home/lxx/下载/AppOpsXposed/res/layout/app_ops_details_item.xml"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/layout/app_ops_item.xml",
+        "source": "/home/lxx/下载/AppOpsXposed/res/layout/app_ops_item.xml"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/layout/spinner.xml",
+        "source": "/home/lxx/下载/AppOpsXposed/res/layout/spinner.xml"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/layout/icon_dropdown.xml",
+        "source": "/home/lxx/下载/AppOpsXposed/res/layout/icon_dropdown.xml"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/layout/manage_applications_item.xml",
+        "source": "/home/lxx/下载/AppOpsXposed/res/layout/manage_applications_item.xml"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/layout/icon_spinner.xml",
+        "source": "/home/lxx/下载/AppOpsXposed/res/layout/icon_spinner.xml"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/layout/settings.xml",
+        "source": "/home/lxx/下载/AppOpsXposed/res/layout/settings.xml"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/layout/app_ops_details.xml",
+        "source": "/home/lxx/下载/AppOpsXposed/res/layout/app_ops_details.xml"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/layout/app_ops_summary.xml",
+        "source": "/home/lxx/下载/AppOpsXposed/res/layout/app_ops_summary.xml"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/layout/checkable_text.xml",
+        "source": "/home/lxx/下载/AppOpsXposed/res/layout/checkable_text.xml"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/layout/launcher_info.xml",
+        "source": "/home/lxx/下载/AppOpsXposed/res/layout/launcher_info.xml"
+    }
+]

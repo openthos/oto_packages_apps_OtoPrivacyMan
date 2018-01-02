@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="theme_default_is_light">true</bool>
+    <style name="DefaultTheme" parent="@android:style/Theme.DeviceDefault"/>
+</resources>

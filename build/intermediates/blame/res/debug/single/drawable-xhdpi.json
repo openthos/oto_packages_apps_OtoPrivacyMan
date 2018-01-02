@@ -1,0 +1,54 @@
+[
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/drawable-xhdpi/ic_appops_shield_circle.png",
+        "source": "/home/lxx/下载/AppOpsXposed/res/drawable-xhdpi/ic_appops_shield_circle.png"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/drawable-xhdpi/ic_appops_white.png",
+        "source": "/home/lxx/下载/AppOpsXposed/res/drawable-xhdpi/ic_appops_white.png"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/drawable-xhdpi/ic_appops_cog_teal.png",
+        "source": "/home/lxx/下载/AppOpsXposed/res/drawable-xhdpi/ic_appops_cog_teal.png"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/drawable-xhdpi/checkerboard_framed.png",
+        "source": "/home/lxx/下载/AppOpsXposed/res/drawable-xhdpi/checkerboard_framed.png"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/drawable-xhdpi/ic_appops_launcher.png",
+        "source": "/home/lxx/下载/AppOpsXposed/res/drawable-xhdpi/ic_appops_launcher.png"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/drawable-xhdpi/ic_appops_black.png",
+        "source": "/home/lxx/下载/AppOpsXposed/res/drawable-xhdpi/ic_appops_black.png"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/drawable-xhdpi/ic_appops_cog_grey.png",
+        "source": "/home/lxx/下载/AppOpsXposed/res/drawable-xhdpi/ic_appops_cog_grey.png"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/drawable-xhdpi/ic_appops_cog_circle.png",
+        "source": "/home/lxx/下载/AppOpsXposed/res/drawable-xhdpi/ic_appops_cog_circle.png"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/drawable-xhdpi/checkerboard.png",
+        "source": "/home/lxx/下载/AppOpsXposed/res/drawable-xhdpi/checkerboard.png"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/drawable-xhdpi/ic_appops_cog_black.png",
+        "source": "/home/lxx/下载/AppOpsXposed/res/drawable-xhdpi/ic_appops_cog_black.png"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/drawable-xhdpi/ic_launcher2.png",
+        "source": "/home/lxx/下载/AppOpsXposed/res/drawable-xhdpi/ic_launcher2.png"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/drawable-xhdpi/ic_appops_shield_teal.png",
+        "source": "/home/lxx/下载/AppOpsXposed/res/drawable-xhdpi/ic_appops_shield_teal.png"
+    },
+    {
+        "merged": "/home/lxx/下载/AppOpsXposed/build/intermediates/res/merged/debug/drawable-xhdpi/ic_appops_cog_white.png",
+        "source": "/home/lxx/下载/AppOpsXposed/res/drawable-xhdpi/ic_appops_cog_white.png"
+    }
+]
