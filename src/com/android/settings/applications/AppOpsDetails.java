@@ -60,6 +60,7 @@ public class AppOpsDetails extends Fragment {
     private View mRootView;
     private TextView mAppVersion;
     private LinearLayout mOperationsSection;
+    private String mPackageName;
 
     // Utility method to set application label and icon.
     private void setAppLabelAndIcon(PackageInfo pkgInfo) {
@@ -85,15 +86,16 @@ public class AppOpsDetails extends Fragment {
     }
 
     private String retrieveAppEntry() {
-        final Bundle args = getArguments();
-        String packageName = (args != null) ? args.getString(ARG_PACKAGE_NAME) : null;
-        if (packageName == null) {
-            Intent intent = (args == null) ?
-                    getActivity().getIntent() : (Intent) args.getParcelable("intent");
-            if (intent != null) {
-                packageName = intent.getData().getSchemeSpecificPart();
-            }
-        }
+//        final Bundle args = getArguments();
+//        String packageName = (args != null) ? args.getString(ARG_PACKAGE_NAME) : null;
+//        if (packageName == null) {
+//            Intent intent = (args == null) ?
+//                    getActivity().getIntent() : (Intent) args.getParcelable("intent");
+//            if (intent != null) {
+//                packageName = intent.getData().getSchemeSpecificPart();
+//            }
+//        }
+        String packageName = getPkgName();
         try {
             mPackageInfo = mPm.getPackageInfo(packageName,
                     PackageManager.GET_DISABLED_COMPONENTS |
@@ -228,8 +230,17 @@ public class AppOpsDetails extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        retrieveAppEntry();
         if (!refreshUi()) {
             setIntentAndFinish(true, true);
         }
+    }
+
+    public String getPkgName() {
+        return mPackageName;
+    }
+
+    public void setPkgName(String packageName) {
+        this.mPackageName = packageName;
     }
 }

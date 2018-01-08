@@ -57,57 +57,50 @@ import dalvik.system.DexFile;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import eu.chainfire.libsuperuser.Shell.SU;
 
-public final class Util
-{
+public final class Util {
 	// keep this variable, because some versions of ART seem to inline
 	// a function that simply returns a constant.
 	private static boolean sIsExposedModuleEnabled = false;
 	public static boolean sIsBootCompletedHackWorking = false;
 
-	public interface Logger
-	{
+	public interface Logger {
 		void log(String s);
+
 		void log(Throwable t);
 	}
 
 	public static Logger logger = new Logger() {
 
 		@Override
-		public void log(Throwable t)
-		{
+		public void log(Throwable t) {
 			Log.w("AOX", t);
 		}
 
 		@Override
-		public void log(String s)
-		{
+		public void log(String s) {
 			Log.i("AOX", s);
 		}
 	};
 
 	public static int logLevel = 1;
 
-	public static void log(Throwable t)
-	{
-		if(logLevel >= 1)
+	public static void log(Throwable t) {
+		if (logLevel >= 1)
 			logger.log(t);
 	}
 
-	public static void log(String s)
-	{
-		if(logLevel >= 1)
+	public static void log(String s) {
+		if (logLevel >= 1)
 			logger.log(s);
 	}
 
-	public static void debug(Throwable t)
-	{
-		if(logLevel >= 2)
+	public static void debug(Throwable t) {
+		if (logLevel >= 2)
 			logger.log(t);
 	}
 
-	public static void debug(String s)
-	{
-		if(logLevel >= 2)
+	public static void debug(String s) {
+		if (logLevel >= 2)
 			logger.log(s);
 	}
 
@@ -115,10 +108,11 @@ public final class Util
 		return sIsExposedModuleEnabled;
 	}
 
-	public static boolean isBootCompletedHackWorking() { return sIsBootCompletedHackWorking; }
+	public static boolean isBootCompletedHackWorking() {
+		return sIsBootCompletedHackWorking;
+	}
 
-	public static boolean isXposedModuleOrSystemApp(Context context)
-	{
+	public static boolean isXposedModuleOrSystemApp(Context context) {
 		return isXposedModuleEnabled() || isSystemApp(context);
 	}
 
@@ -126,21 +120,16 @@ public final class Util
 		return Build.MANUFACTURER.toLowerCase(Locale.US).contains(str.toLowerCase());
 	}
 
-	public static String getAoxVersion(Context context)
-	{
+	public static String getAoxVersion(Context context) {
 		final PackageManager pm = context.getPackageManager();
-		try
-		{
+		try {
 			return pm.getPackageInfo(context.getPackageName(), 0).versionName;
-		}
-		catch(NameNotFoundException e)
-		{
+		} catch (NameNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public static String[] appendToStringArray(String[] array, String str)
-	{
+	public static String[] appendToStringArray(String[] array, String str) {
 		final ArrayList<String> list = new ArrayList<String>(Arrays.asList(array));
 		list.add(str);
 
@@ -148,45 +137,37 @@ public final class Util
 		return list.toArray(newArray);
 	}
 
-	public static String getSystemProperty(String key, String defValue)
-	{
-		try
-		{
+	public static String getSystemProperty(String key, String defValue) {
+		try {
 			final Method m = Class.forName("android.os.SystemProperties").
 					getMethod("get", String.class, String.class);
 
 			return (String) m.invoke(null, key, defValue);
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 			return defValue;
 		}
 	}
 
-	public static File getPreferenceFile()
-	{
+	public static File getPreferenceFile() {
 		return new File(Environment.getDataDirectory(), "data/" + Constants.MODULE_PACKAGE
 				+ "/shared_prefs/" + Constants.MODULE_PACKAGE + "_preferences.xml");
 	}
 
-	public static void fixPreferencePermissions()
-	{
+	public static void fixPreferencePermissions() {
 		final File f = getPreferenceFile();
-		if(f.exists() && !f.setReadable(true, false))
+		if (f.exists() && !f.setReadable(true, false))
 			log("Failed to make preferences file readable");
 	}
 
-	public static Intent createAppOpsIntent(String packageName)
-	{
+	public static Intent createAppOpsIntent(String packageName) {
 		final Intent intent = new Intent();
 		intent.setClassName(AppOpsActivity.class.getPackage().getName(),
 				AppOpsActivity.class.getName());
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
 				| Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
-		if(packageName != null)
-		{
+		if (packageName != null) {
 			final Bundle args = new Bundle();
 			args.putString(AppOpsDetails.ARG_PACKAGE_NAME, packageName);
 			intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT_ARGUMENTS, args);
@@ -196,20 +177,17 @@ public final class Util
 		return intent;
 	}
 
-	public static SharedPreferences getSharedPrefs(Context context)
-	{
+	public static SharedPreferences getSharedPrefs(Context context) {
 		return context.getSharedPreferences(context.getPackageName() + "_preferences",
 				Context.MODE_WORLD_READABLE);
 	}
 
-	public static void dumpViewHierarchy(View v)
-	{
+	public static void dumpViewHierarchy(View v) {
 		debug("dumpViewHierarchy: ");
 		dumpViewHierarchyInternal(v, 0);
 	}
 
-	public static void applyTheme(Activity activity)
-	{
+	public static void applyTheme(Activity activity) {
 		int themeResId = PreferenceManager.getDefaultSharedPreferences(activity)
 				.getBoolean("light_theme", false)
 				? android.R.style.Theme_DeviceDefault_Light_DarkActionBar
@@ -218,48 +196,38 @@ public final class Util
 		activity.setTheme(themeResId);
 	}
 
-	public static boolean hasAppOpsPermissions(Context context)
-	{
-		for(String perm : Constants.APP_OPS_PERMISSIONS)
-		{
-			if(context.checkCallingOrSelfPermission(perm) != PackageManager.PERMISSION_GRANTED)
+	public static boolean hasAppOpsPermissions(Context context) {
+		for (String perm : Constants.APP_OPS_PERMISSIONS) {
+			if (context.checkCallingOrSelfPermission(perm) != PackageManager.PERMISSION_GRANTED)
 				return false;
 		}
 
 		return true;
 	}
 
-	public static Set<String> getClassList(String apkFile, String packageName, boolean getSubPackages)
-	{
+	public static Set<String> getClassList(String apkFile, String packageName, boolean getSubPackages) {
 		final Enumeration<String> entries;
 		DexFile df = null;
-		try
-		{
+		try {
 			df = new DexFile(apkFile);
 			entries = df.entries();
-		}
-		catch(IOException e)
-		{
+		} catch (IOException e) {
 			debug(e);
 			return null;
-		}
-		finally
-		{
+		} finally {
 			Util.closeQuietly(df);
 		}
 
 		final Set<String> classes = new HashSet<String>();
 
-		while(entries.hasMoreElements())
-		{
+		while (entries.hasMoreElements()) {
 			final String entry = entries.nextElement();
 
-			if(packageName != null)
-			{
-				if(!entry.startsWith(packageName))
+			if (packageName != null) {
+				if (!entry.startsWith(packageName))
 					continue;
 
-				if(!getSubPackages && entry.substring(packageName.length() + 1).contains("."))
+				if (!getSubPackages && entry.substring(packageName.length() + 1).contains("."))
 					continue;
 			}
 
@@ -273,71 +241,59 @@ public final class Util
 		return getClassList(lpparam, null, true);
 	}
 
-	public static Set<String> getClassList(LoadPackageParam lpparam, String packageName, boolean getSubPackages)
-	{
-		if(lpparam.appInfo == null)
+	public static Set<String> getClassList(LoadPackageParam lpparam, String packageName, boolean getSubPackages) {
+		if (lpparam.appInfo == null)
 			return null;
 
 		return getClassList(lpparam.appInfo.sourceDir, packageName, getSubPackages);
 	}
 
-	private static void dumpViewHierarchyInternal(View view, int level)
-	{
+	private static void dumpViewHierarchyInternal(View view, int level) {
 		debug(pad(2 * level) + view);
 
-		if(view instanceof ViewGroup)
-		{
+		if (view instanceof ViewGroup) {
 			final ViewGroup vg = (ViewGroup) view;
-			for(int i = 0; i != vg.getChildCount(); ++i)
+			for (int i = 0; i != vg.getChildCount(); ++i)
 				dumpViewHierarchyInternal(vg.getChildAt(i), level + 1);
 		}
 	}
 
-	private static String pad(int length)
-	{
+	private static String pad(int length) {
 		final StringBuilder sb = new StringBuilder(length);
-		for(int i = 0; i != length; ++i)
+		for (int i = 0; i != length; ++i)
 			sb.append(' ');
 
 		return sb.toString();
 	}
 
-	public static String capitalizeFirst(CharSequence text)
-	{
-		if(text == null)
+	public static String capitalizeFirst(CharSequence text) {
+		if (text == null)
 			return null;
 
-		if(text.length() == 0 || !Character.isLowerCase(text.charAt(0)))
+		if (text.length() == 0 || !Character.isLowerCase(text.charAt(0)))
 			return text.toString();
 
 		return Character.toUpperCase(text.charAt(0)) + text.subSequence(1, text.length()).toString();
 	}
 
-	public static boolean isSystemApp(Context context)
-	{
-		try
-		{
+	public static boolean isSystemApp(Context context) {
+		try {
 			final ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), 0);
 			return 0 != (appInfo.flags & ApplicationInfo.FLAG_SYSTEM);
-		}
-		catch(NameNotFoundException e)
-		{
+		} catch (NameNotFoundException e) {
 			// shouldn't happen
 		}
 
 		return false;
 	}
 
-	public static boolean runAsSu(String[] commands)
-	{
+	public static boolean runAsSu(String[] commands) {
 		boolean hasOutput = false;
 
-		for(String command : commands)
-		{
+		for (String command : commands) {
 			Util.debug("cmd: " + command);
 			final List<String> out = SU.run(command);
-			if(out != null && !out.isEmpty())
-			{
+			if (out != null && !out.isEmpty()) {
 				Util.debug("---> " + out.get(0));
 				hasOutput = true;
 				break;
@@ -348,56 +304,39 @@ public final class Util
 	}
 
 	@TargetApi(19)
-	public static int getOpValue(String opName)
-	{
-		try
-		{
+	public static int getOpValue(String opName) {
+		try {
 			return AppOpsManager.class.getField(opName).getInt(null);
-		}
-		catch(NoSuchFieldException e)
-		{
+		} catch (NoSuchFieldException e) {
 			// ignore
-		}
-		catch(IllegalAccessException e)
-		{
+		} catch (IllegalAccessException e) {
 			// ignore
-		}
-		catch(IllegalArgumentException e)
-		{
+		} catch (IllegalArgumentException e) {
 			// ignore
 		}
 
 		return -1;
 	}
 
-	public static void closeQuietly(DexFile df)
-	{
-		try
-		{
-			if(df != null)
+	public static void closeQuietly(DexFile df) {
+		try {
+			if (df != null)
 				df.close();
-		}
-		catch(IOException e)
-		{
+		} catch (IOException e) {
 			// ignore
 		}
 	}
 
-	public static void closeQuietly(Closeable c)
-	{
-		try
-		{
-			if(c != null)
+	public static void closeQuietly(Closeable c) {
+		try {
+			if (c != null)
 				c.close();
-		}
-		catch(IOException e)
-		{
+		} catch (IOException e) {
 			// ignore
 		}
 	}
 
-	public static class StringList
-	{
+	public static class StringList {
 		private final List<CharSequence> mList = new ArrayList<CharSequence>();
 
 		public void add(String string) {
@@ -409,13 +348,11 @@ public final class Util
 		}
 
 		@Override
-		public String toString()
-		{
+		public String toString() {
 			final StringBuilder sb = new StringBuilder();
 
-			for(int i = 0; i != mList.size(); ++i)
-			{
-				if(i != 0)
+			for (int i = 0; i != mList.size(); ++i) {
+				if (i != 0)
 					sb.append(", ");
 
 				sb.append(mList.get(i));
@@ -426,5 +363,6 @@ public final class Util
 
 	}
 
-	private Util() {}
+	private Util() {
+	}
 }

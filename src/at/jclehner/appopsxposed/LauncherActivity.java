@@ -48,10 +48,8 @@ import android.widget.Toast;
 import at.jclehner.appopsxposed.util.Util;
 import eu.chainfire.libsuperuser.Shell.SU;
 
-public class LauncherActivity extends Activity
-{
-	public static class HtcActivity2 extends Activity
-	{
+public class LauncherActivity extends Activity {
+	public static class HtcActivity2 extends Activity {
 	}
 
 	public static final String SYSTEM_APK = "/system/" +
@@ -59,8 +57,7 @@ public class LauncherActivity extends Activity
 					"priv-app" : "app") + "/AppOpsXposed.apk";
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		Util.applyTheme(this);
 		super.onCreate(savedInstanceState);
 
@@ -80,32 +77,25 @@ public class LauncherActivity extends Activity
 	//  |                \
 	//                   Install as system app?
 
-	private boolean checkModuleStatus()
-	{
-		if(!Util.isXposedModuleEnabled() && !Util.hasAppOpsPermissions(this))
-		{
+	private boolean checkModuleStatus() {
+		if(!Util.isXposedModuleEnabled() && !Util.hasAppOpsPermissions(this)) {
 			final Intent intent;
 			final String message;
 
 			final CharSequence xposedInstallerName = getXposedInstallerName();
 
-			if(xposedInstallerName != null)
-			{
+			if(xposedInstallerName != null) {
 				intent = new Intent("de.robv.android.xposed.installer.OPEN_SECTION");
 				intent.putExtra("section", "modules");
 				message = getString(R.string.enable_module, xposedInstallerName);
-			}
-			else
-			{
+			} else {
 				intent = null;
 				message = getString(R.string.cannot_enable);
 			}
 
-			final OnClickListener l = new OnClickListener()
-			{
+			final OnClickListener l = new OnClickListener() {
 				@Override
-				public void onClick(DialogInterface dialog, int which)
-				{
+				public void onClick(DialogInterface dialog, int which) {
 					if(which == Dialog.BUTTON_POSITIVE && intent != null)
 						startActivity(intent);
 
@@ -127,16 +117,12 @@ public class LauncherActivity extends Activity
 		return true;
 	}
 
-	private CharSequence getXposedInstallerName()
-	{
-		try
-		{
+	private CharSequence getXposedInstallerName() {
+		try {
 			final ApplicationInfo ai = getPackageManager().getApplicationInfo(
 					"de.robv.android.xposed.installer", 0);
 			return ai.loadLabel(getPackageManager());
-		}
-		catch(PackageManager.NameNotFoundException e)
-		{
+		} catch(PackageManager.NameNotFoundException e) {
 			return null;
 		}
 	}

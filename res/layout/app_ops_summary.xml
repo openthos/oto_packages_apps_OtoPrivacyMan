@@ -22,24 +22,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-    <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:tag="pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-        <android.support.v4.view.PagerTabStrip
-                android:id="@+id/tabs"
-                android:tag="tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:textAppearance="@style/TextAppearance.PagerTabs"
-                android:paddingLeft="0dip"
-                android:paddingRight="0dip">
-        </android.support.v4.view.PagerTabStrip>
-    </android.support.v4.view.ViewPager>
+    <ListView
+        android:id="@+id/classify_applist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:dividerHeight="1dp"
+        android:divider="#808080" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#808080"
+        />
+    <FrameLayout
+        android:id="@+id/fragment_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
+    </FrameLayout>
 
 </LinearLayout>

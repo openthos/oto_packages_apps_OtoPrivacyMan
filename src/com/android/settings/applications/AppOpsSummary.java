@@ -17,15 +17,13 @@
 package com.android.settings.applications;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.os.Build;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.support.v13.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerTabStrip;
-import android.support.v4.view.ViewPager;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,12 +31,20 @@ import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import at.jclehner.appopsxposed.AppListFragment;
 import at.jclehner.appopsxposed.R;
 import at.jclehner.appopsxposed.SettingsActivity;
-import at.jclehner.appopsxposed.util.AppOpsManagerWrapper;
 import at.jclehner.appopsxposed.util.ObjectWrapper;
-import at.jclehner.appopsxposed.util.Util;
 
 public class AppOpsSummary extends Fragment {
     // layout inflater object used to inflate views
@@ -46,7 +52,6 @@ public class AppOpsSummary extends Fragment {
 
     private ViewGroup mContentContainer;
     private View mRootView;
-    private ViewPager mViewPager;
 
     CharSequence[] mPageNames;
     static AppOpsState.OpsTemplate[] sPageTemplates = new AppOpsState.OpsTemplate[] {
@@ -58,54 +63,69 @@ public class AppOpsSummary extends Fragment {
         AppOpsState.BOOTUP_TEMPLATE
     };
 
-    int mCurPos;
+    private ListView mAppList;
+    private PackageManager mPm;
 
-    class MyPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
+    class MyAppAdapter extends BaseAdapter {
 
-        public MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
+        private List<ApplicationInfo> mList;
+        private ViewHolder holder;
+        private int mPosition = 0;
 
-        @Override
-        public Fragment getItem(int position) {
-            return new AppOpsCategory(sPageTemplates[position]);
+        public MyAppAdapter(List<ApplicationInfo> list) {
+            mList = list;
         }
 
         @Override
         public int getCount() {
-            int count = sPageTemplates.length;
+            return mList != null ? mList.size() : 0;
+        }
 
-            if (AppOpsManagerWrapper.hasTrueBootCompletedOp() || Util.isBootCompletedHackWorking()) {
-                int bootCompletedOp = AppOpsManagerWrapper.getBootCompletedOp();
-                if (bootCompletedOp != -1) {
-                    AppOpsState.BOOTUP_TEMPLATE.ops[0] = bootCompletedOp;
-                    return count;
-                }
+        @Override
+        public Object getItem(int i) {
+            return mList.get(i);
+        }
 
-                Util.log("bootCompletedOp is -1");
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            if (view == null) {
+                view = mInflater.inflate(R.layout.app_item, viewGroup, false);
+                holder = new ViewHolder(view);
+                view.setTag(holder);
+            } else {
+                holder = (ViewHolder) view.getTag();
             }
 
-            return count - 1;
+            ApplicationInfo info = mList.get(i);
+            holder.appName.setText(info.loadLabel(mPm));
+            holder.icon.setImageDrawable(info.loadIcon(mPm));
+            holder.appLayout.setBackgroundColor(Color.TRANSPARENT);
+            if (i == mPosition) {
+                holder.appLayout.setBackgroundColor(0x80808080);
+            }
+
+            return view;
         }
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mPageNames[position];
+        public void setSelectItem(int position) {
+            this.mPosition = position;
         }
 
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        }
+        public class ViewHolder {
 
-        @Override
-        public void onPageSelected(int position) {
-            mCurPos = position;
-        }
+            private final TextView appName;
+            private final ImageView icon;
+            private final LinearLayout appLayout;
 
-        @Override
-        public void onPageScrollStateChanged(int state) {
-            if (state == ViewPager.SCROLL_STATE_IDLE) {
-                //updateCurrentTab(mCurPos);
+            public ViewHolder(View view) {
+                appName = (TextView) view.findViewById(R.id.app_name);
+                icon = (ImageView) view.findViewById(R.id.app_icon);
+                appLayout = (LinearLayout) view.findViewById(R.id.applist_layout);
             }
         }
     }
@@ -114,10 +134,12 @@ public class AppOpsSummary extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+        mPm = getActivity().getPackageManager();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                        ViewGroup container, Bundle savedInstanceState) {
         // initialize the inflater
         mInflater = inflater;
 
@@ -128,23 +150,29 @@ public class AppOpsSummary extends Fragment {
 
         mPageNames = getResources().getTextArray(R.array.app_ops_categories);
 
-        mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
-        MyPagerAdapter adapter = new MyPagerAdapter(getChildFragmentManager());
-        mViewPager.setAdapter(adapter);
-        mViewPager.setOnPageChangeListener(adapter);
-        PagerTabStrip tabs = (PagerTabStrip) rootView.findViewById(R.id.tabs);
+        mAppList = (ListView) rootView.findViewById(R.id.classify_applist);
+        final MyAppAdapter myAppAdapter = new MyAppAdapter(getInstalledApp());
+        myAppAdapter.setSelectItem(0);
+        mAppList.setAdapter(myAppAdapter);
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            tabs.setTabIndicatorColorResource(android.R.color.holo_blue_light);
-        } else {
-            final TypedValue val = new TypedValue();
-            getActivity().getTheme().resolveAttribute(android.R.attr.colorAccent, val, true);
-            tabs.setTabIndicatorColor(val.data);
-        }
+        final FragmentTransaction transaction = getActivity()
+                                    .getFragmentManager().beginTransaction();
+        final AppOpsDetails opsDetails = new AppOpsDetails();
+        opsDetails.setPkgName(((ApplicationInfo)mAppList.getItemAtPosition(0)).packageName);
+        mAppList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                myAppAdapter.setSelectItem(i);
+                ApplicationInfo info = (ApplicationInfo) mAppList.getItemAtPosition(i);
+                opsDetails.setPkgName(info.packageName);
+                opsDetails.onResume();
+                myAppAdapter.notifyDataSetChanged();
+            }
+        });
+        transaction.replace(R.id.fragment_content, opsDetails).commit();
 
-        // We have to do this now because PreferenceFrameLayout looks at it
-        // only when the view is added.
-        if (container != null && "android.preference.PreferenceFrameLayout".equals(container.getClass().getName())) {
+        if (container != null && "android.preference.PreferenceFrameLayout"
+                                                .equals(container.getClass().getName())) {
             new ObjectWrapper(rootView.getLayoutParams()).set("removeBorders", true);
         }
 
@@ -154,11 +182,13 @@ public class AppOpsSummary extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.add(R.string.show_changed_only_title).setOnMenuItemClickListener(new OnMenuItemClickListener() {
+        menu.add(R.string.show_changed_only_title)
+                                .setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                ((PreferenceActivity) getActivity()).startPreferenceFragment(AppListFragment.newInstance(true), true);
+                ((PreferenceActivity) getActivity())
+                            .startPreferenceFragment(AppListFragment.newInstance(true), true);
                 return true;
             }
         });
@@ -170,6 +200,16 @@ public class AppOpsSummary extends Fragment {
                 return true;
             }
         });
+    }
+
+    private List<ApplicationInfo> getInstalledApp() {
+        List<ApplicationInfo> lists = new ArrayList<>();
+        List<ApplicationInfo> installedApplications = mPm.getInstalledApplications(0);
+        for (ApplicationInfo info : installedApplications) {
+            if (info.sourceDir.indexOf("data/app") == -1) continue;
+            lists.add(info);
+        }
+        return lists;
     }
 
 }

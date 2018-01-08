@@ -73,5 +73,6 @@
     <string name="xperia_ignored">忽略</string>
     <string name="xposed_not_installed">Xposed Installer 并未安装到系统且您当前使用 Android 4.4+。\"%1$s\" 也许被禁用了， 您可以尝试使用下面的 \"%2$s\" 来启动它。注意，您的设备必需已 Root 并安装了 Xposed 框架。</string>
     <string name="xposed_settings_warning">当不以 Xposed 模块运行时，这些设置无效！</string>
+    <string name="app_name">"权限管理器"</string>
    
 </resources>

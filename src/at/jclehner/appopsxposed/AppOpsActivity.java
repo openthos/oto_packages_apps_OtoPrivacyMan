@@ -30,39 +30,31 @@ import com.android.settings.applications.AppOpsCategory;
 import com.android.settings.applications.AppOpsDetails;
 import com.android.settings.applications.AppOpsSummary;
 
-public class AppOpsActivity extends PreferenceActivity
-{
+public class AppOpsActivity extends PreferenceActivity {
 	@Override
-	public Intent getIntent()
-	{
+	public Intent getIntent() {
 		final Intent intent = new Intent(super.getIntent());
 		intent.putExtra(EXTRA_NO_HEADERS, true);
 
 		final String pkg = intent.getStringExtra("package");
-		if("android.settings.APP_OPS_SETTINGS".equals(intent.getAction()) || pkg != null)
-		{
-			if(pkg != null)
-			{
+		if ("android.settings.APP_OPS_SETTINGS".equals(intent.getAction()) || pkg != null) {
+			if (pkg != null) {
 				intent.putExtra(EXTRA_SHOW_FRAGMENT, AppOpsDetails.class.getName());
 				intent.putExtra(EXTRA_SHOW_FRAGMENT_ARGUMENTS, intent.getExtras());
-			}
-			else
+			} else
 				intent.putExtra(EXTRA_SHOW_FRAGMENT, AppOpsSummary.class.getName());
-		}
-		else if(!intent.hasExtra(EXTRA_SHOW_FRAGMENT))
+		} else if (!intent.hasExtra(EXTRA_SHOW_FRAGMENT))
 			intent.putExtra(EXTRA_SHOW_FRAGMENT, AppOpsSummary.class.getName());
 
 		return intent;
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		Util.applyTheme(this);
 		super.onCreate(savedInstanceState);
 
-		if(!Util.hasAppOpsPermissions(this))
-		{
+		if (!Util.hasAppOpsPermissions(this)) {
 			final AlertDialog.Builder ab = new AlertDialog.Builder(this);
 			ab.setMessage(getString(R.string.permissions_not_granted,
 					getString(R.string.app_ops_settings),
@@ -73,15 +65,13 @@ public class AppOpsActivity extends PreferenceActivity
 	}
 
 	@Override
-	protected void onPause()
-	{
+	protected void onPause() {
 		super.onPause();
 		Util.fixPreferencePermissions();
 	}
 
 	@Override
-	protected boolean isValidFragment(String fragmentName)
-	{
+	protected boolean isValidFragment(String fragmentName) {
 		return AppOpsSummary.class.getName().equals(fragmentName)
 				|| AppOpsDetails.class.getName().equals(fragmentName)
 				|| AppOpsCategory.class.getName().equals(fragmentName)
