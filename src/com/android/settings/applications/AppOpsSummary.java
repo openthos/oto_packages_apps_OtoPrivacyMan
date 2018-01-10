@@ -18,7 +18,10 @@ package com.android.settings.applications;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -65,6 +68,9 @@ public class AppOpsSummary extends Fragment {
 
     private ListView mAppList;
     private PackageManager mPm;
+    private MyAppAdapter mMyAppAdapter;
+    private AppOpsDetails mOpsDetails;
+    private View mEmptyView;
 
     class MyAppAdapter extends BaseAdapter {
 
@@ -72,8 +78,12 @@ public class AppOpsSummary extends Fragment {
         private ViewHolder holder;
         private int mPosition = 0;
 
-        public MyAppAdapter(List<ApplicationInfo> list) {
+        public MyAppAdapter() {
+        }
+
+        public void setData(List<ApplicationInfo> list) {
             mList = list;
+            notifyDataSetChanged();
         }
 
         @Override
@@ -83,7 +93,7 @@ public class AppOpsSummary extends Fragment {
 
         @Override
         public Object getItem(int i) {
-            return mList.get(i);
+            return mList != null ? mList.get(i) : null;
         }
 
         @Override
@@ -151,32 +161,56 @@ public class AppOpsSummary extends Fragment {
         mPageNames = getResources().getTextArray(R.array.app_ops_categories);
 
         mAppList = (ListView) rootView.findViewById(R.id.classify_applist);
-        final MyAppAdapter myAppAdapter = new MyAppAdapter(getInstalledApp());
-        myAppAdapter.setSelectItem(0);
-        mAppList.setAdapter(myAppAdapter);
+        mEmptyView = rootView.findViewById(R.id.empty);
 
-        final FragmentTransaction transaction = getActivity()
-                                    .getFragmentManager().beginTransaction();
-        final AppOpsDetails opsDetails = new AppOpsDetails();
-        opsDetails.setPkgName(((ApplicationInfo)mAppList.getItemAtPosition(0)).packageName);
-        mAppList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                myAppAdapter.setSelectItem(i);
-                ApplicationInfo info = (ApplicationInfo) mAppList.getItemAtPosition(i);
-                opsDetails.setPkgName(info.packageName);
-                opsDetails.onResume();
-                myAppAdapter.notifyDataSetChanged();
-            }
-        });
-        transaction.replace(R.id.fragment_content, opsDetails).commit();
+        List<ApplicationInfo> installedApp = getInstalledApp();
+        if (installedApp.size() == 0) {
+            mAppList.setEmptyView(mEmptyView);
+        } else {
+            initData(installedApp);
+        }
 
         if (container != null && "android.preference.PreferenceFrameLayout"
                                                 .equals(container.getClass().getName())) {
             new ObjectWrapper(rootView.getLayoutParams()).set("removeBorders", true);
         }
 
+        registerAppReceiver();
+
         return rootView;
+    }
+
+    private void initData(List<ApplicationInfo> installedApp) {
+        mMyAppAdapter = new MyAppAdapter();
+        mMyAppAdapter.setData(installedApp);
+        mMyAppAdapter.setSelectItem(0);
+        mAppList.setAdapter(mMyAppAdapter);
+
+        final FragmentTransaction transaction = getActivity()
+                                    .getFragmentManager().beginTransaction();
+        mOpsDetails = new AppOpsDetails();
+        mOpsDetails.setPkgName(((ApplicationInfo)mAppList.getItemAtPosition(0)).packageName);
+        transaction.replace(R.id.fragment_content, mOpsDetails).commit();
+
+        mAppList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mMyAppAdapter.setSelectItem(i);
+                ApplicationInfo info = (ApplicationInfo) mAppList.getItemAtPosition(i);
+                mOpsDetails.setPkgName(info.packageName);
+                mOpsDetails.onResume();
+                mMyAppAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void registerAppReceiver() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_PACKAGE_ADDED);
+        filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        filter.addAction(Intent.ACTION_PACKAGE_REPLACED);
+        filter.addDataScheme("package");
+        getActivity().registerReceiver(mAppReceiver, filter);
     }
 
 
@@ -212,4 +246,44 @@ public class AppOpsSummary extends Fragment {
         return lists;
     }
 
+    private BroadcastReceiver mAppReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (intent.getAction()) {
+                case Intent.ACTION_PACKAGE_ADDED:
+                    List<ApplicationInfo> addInfos = getInstalledApp();
+                    if (addInfos.size() == 1) {
+                        initData(addInfos);
+                    } else {
+                        refreshUI(addInfos);
+                    }
+                    break;
+                case Intent.ACTION_PACKAGE_REMOVED:
+                case Intent.ACTION_PACKAGE_REPLACED:
+                    List<ApplicationInfo> removedInfos = getInstalledApp();
+                    if (removedInfos.size() == 0) {
+                        mEmptyView.setVisibility(View.VISIBLE);
+                    } else {
+                        refreshUI(removedInfos);
+                    }
+                    break;
+            }
+        }
+    };
+
+    private void refreshUI(List<ApplicationInfo> infos) {
+        mEmptyView.setVisibility(View.GONE);
+        mMyAppAdapter.setData(infos);
+        int selectItem = mMyAppAdapter.mPosition < infos.size()
+                                ? mMyAppAdapter.mPosition : infos.size() - 1;
+        ApplicationInfo item = (ApplicationInfo) mMyAppAdapter.getItem(selectItem);
+        mOpsDetails.setPkgName(item.packageName);
+        mOpsDetails.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(mAppReceiver);
+    }
 }

@@ -44,7 +44,7 @@
         android:layout_columnSpan="2"
         android:layout_gravity="center"
         android:layout_marginTop="2dip"
-        android:textColor="#fff"
+        android:textColor="@android:color/black"
         android:textSize="14sp"
         android:singleLine="true"
         android:ellipsize="marquee"

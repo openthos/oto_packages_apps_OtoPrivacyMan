@@ -189,7 +189,7 @@ public final class Util {
 
 	public static void applyTheme(Activity activity) {
 		int themeResId = PreferenceManager.getDefaultSharedPreferences(activity)
-				.getBoolean("light_theme", false)
+				.getBoolean("light_theme", true)
 				? android.R.style.Theme_DeviceDefault_Light_DarkActionBar
 				: android.R.style.Theme_DeviceDefault;
 
