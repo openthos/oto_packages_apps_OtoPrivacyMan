@@ -16,28 +16,32 @@
 
 package com.android.settings.applications;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.PermissionGroupInfo;
 import android.content.pm.PermissionInfo;
-import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +55,10 @@ public class AppOpsDetails extends Fragment {
     static final String TAG = "AppOpsDetails";
 
     public static final String ARG_PACKAGE_NAME = "package";
+    public static final String GROUP_ITEM = "group";
+    public static final String CHECKED = "checked";
+    public static final int GROUPSW_MSG = 1;
+    public static final int ITEMSW_MSG = 0;
 
     private AppOpsState mState;
     private PackageManager mPm;
@@ -59,8 +67,21 @@ public class AppOpsDetails extends Fragment {
     private LayoutInflater mInflater;
     private View mRootView;
     private TextView mAppVersion;
-    private LinearLayout mOperationsSection;
     private String mPackageName;
+    private SharedPreferences mSp;
+    private CharSequence[] mTypeNames;
+
+    private final int VIEW_TYPE_COUNT = 2;
+
+    private final String DATA = "data";
+    private final String TYPE = "type";
+
+    private final int GROUP = -2;
+    private final int ITEM = -3;
+
+    private ArrayList<HashMap<String, Object>> mItems = null;
+    private ListView mOperationsList;
+    private AppOpsAdapter mOpsAdapter;
 
     // Utility method to set application label and icon.
     private void setAppLabelAndIcon(PackageInfo pkgInfo) {
@@ -118,64 +139,79 @@ public class AppOpsDetails extends Fragment {
         }
 
         setAppLabelAndIcon(mPackageInfo);
+        mSp = getActivity().getSharedPreferences(mPackageInfo.packageName, Context.MODE_PRIVATE);
 
-        Resources res = getActivity().getResources();
+        mTypeNames = getActivity().getResources().getTextArray(R.array.app_ops_categories);
 
-        mOperationsSection.removeAllViews();
-        boolean hasBootupSwitch = false;
-        String lastPermGroup = "";
-        for (AppOpsState.OpsTemplate tpl : AppOpsState.ALL_TEMPLATES) {
-            List<AppOpsState.AppOpEntry> entries = mState.buildState(tpl,
+        mItems.clear();
+        for (int i = 0; i < AppOpsState.ALL_TEMPLATES.length - 1; i++) {
+            AppOpsState.OpsTemplate tpl = AppOpsState.ALL_TEMPLATES[i];
+            final List<AppOpsState.AppOpEntry> entries = mState.buildState(tpl,
                     mPackageInfo.applicationInfo.uid, mPackageInfo.packageName);
+            if (entries.size() > 0) {
+                HashMap<String, Object> groupMap = new HashMap<>();
+                groupMap.put(TYPE, GROUP);
+                groupMap.put(DATA, i);
+                mItems.add(groupMap);
+            }
             for (final AppOpsState.AppOpEntry entry : entries) {
-                final OpEntryWrapper firstOp = entry.getOpEntry(0);
-                final View view = mInflater.inflate(R.layout.app_ops_details_item,
-                        mOperationsSection, false);
-                String perm = AppOpsManagerWrapper.opToPermission(firstOp.getOp());
-                if (perm != null) {
-                    if (Manifest.permission.RECEIVE_BOOT_COMPLETED.equals(perm)) {
-                        if (!hasBootupSwitch) {
-                            hasBootupSwitch = true;
-                        } else {
-                            Log.i(TAG, "Skipping second bootup switch");
-                            continue;
-                        }
-                    }
-                    try {
-                        PermissionInfo pi = mPm.getPermissionInfo(perm, 0);
-                        if (pi.group != null && !lastPermGroup.equals(pi.group)) {
-                            lastPermGroup = pi.group;
-                            PermissionGroupInfo pgi = mPm.getPermissionGroupInfo(pi.group, 0);
-                            if (pgi.icon != 0) {
-                                ((ImageView)view.findViewById(R.id.op_icon)).setImageDrawable(
-                                        pgi.loadIcon(mPm));
-                            }
-                        }
-                    } catch (NameNotFoundException e) {
-                    }
-                }
-                ((TextView)view.findViewById(R.id.op_name)).setText(
-                        entry.getSwitchText(getActivity(), mState));
-                ((TextView)view.findViewById(R.id.op_time)).setText(
-                        entry.getTimeText(res, true));
-
-                Switch sw = (Switch)view.findViewById(R.id.switchWidget);
-                final int switchOp = AppOpsManagerWrapper.opToSwitch(firstOp.getOp());
-                sw.setChecked(modeToChecked(switchOp, entry.getPackageOps()));
-                sw.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        mAppOps.setMode(switchOp, entry.getPackageOps().getUid(),
-                                entry.getPackageOps().getPackageName(), isChecked
-                                ? AppOpsManagerWrapper.MODE_ALLOWED : AppOpsManagerWrapper.MODE_IGNORED);
-                    }
-                });
-                mOperationsSection.addView(view);
+                HashMap<String, Object> dataMap = new HashMap<>();
+                dataMap.put(TYPE, ITEM);
+                dataMap.put(DATA, entry);
+                mItems.add(dataMap);
             }
         }
+        mOpsAdapter.setData(mItems);
 
         return true;
     }
+
+    private void setAppOpsMode(boolean isChecked, AppOpsState.AppOpEntry entry, int switchOp) {
+        mAppOps.setMode(switchOp, entry.getPackageOps().getUid(),
+                entry.getPackageOps().getPackageName(), isChecked
+                        ? AppOpsManagerWrapper.MODE_ALLOWED : AppOpsManagerWrapper.MODE_IGNORED);
+    }
+
+    private Handler mUiHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            List<Boolean> list = new ArrayList<>();
+            switch (msg.what) {
+                case ITEMSW_MSG:
+                    for (int i = 0; i < AppOpsState.ALL_TEMPLATES.length - 1; i++){
+                        AppOpsState.OpsTemplate tpl = AppOpsState.ALL_TEMPLATES[i];
+                        final List<AppOpsState.AppOpEntry> entries = mState.buildState(tpl,
+                                mPackageInfo.applicationInfo.uid, mPackageInfo.packageName);
+                        list.clear();
+                        for (AppOpsState.AppOpEntry entry : entries) {
+                            OpEntryWrapper firstOp = entry.getOpEntry(0);
+                            int switchOp = AppOpsManagerWrapper.opToSwitch(firstOp.getOp());
+                            list.add(modeToChecked(switchOp, entry.getPackageOps()));
+                        }
+                        if (entries.size() > 0 && !list.contains(true)) {
+                            mSp.edit().putBoolean(mTypeNames[i].toString(), false).commit();
+                        } else if (entries.size() > 0 && list.contains(true)) {
+                            mSp.edit().putBoolean(mTypeNames[i].toString(), true).commit();
+                        }
+                    }
+                    break;
+                case GROUPSW_MSG:
+                    Bundle data = msg.getData();
+                    int index = (int) data.get(GROUP_ITEM);
+                    boolean isChecked = data.getBoolean(CHECKED);
+                    AppOpsState.OpsTemplate tpl = AppOpsState.ALL_TEMPLATES[index];
+                    final List<AppOpsState.AppOpEntry> entries = mState.buildState(tpl,
+                            mPackageInfo.applicationInfo.uid, mPackageInfo.packageName);
+                    for (AppOpsState.AppOpEntry entry : entries) {
+                        OpEntryWrapper firstOp = entry.getOpEntry(0);
+                        int switchOp = AppOpsManagerWrapper.opToSwitch(firstOp.getOp());
+                        setAppOpsMode(isChecked, entry, switchOp);
+                    }
+                    break;
+            }
+            mOpsAdapter.notifyDataSetChanged();
+        }
+    };
 
     private boolean modeToChecked(int switchOp, PackageOpsWrapper ops) {
        return modeToChecked(mAppOps.checkOpNoThrow(switchOp, ops.getUid(), ops.getPackageName()));
@@ -208,7 +244,8 @@ public class AppOpsDetails extends Fragment {
 
         mState = new AppOpsState(getActivity());
         mPm = getActivity().getPackageManager();
-        mInflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater = (LayoutInflater)getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mAppOps = AppOpsManagerWrapper.from(getActivity());
 
         retrieveAppEntry();
@@ -223,7 +260,13 @@ public class AppOpsDetails extends Fragment {
         //Utils.prepareCustomPreferencesList(container, view, view, false);
 
         mRootView = view;
-        mOperationsSection = (LinearLayout)view.findViewById(R.id.operations_section);
+        mOperationsList = (ListView) view.findViewById(R.id.operations_list);
+
+        mItems = new ArrayList<>();
+        mOpsAdapter = new AppOpsAdapter();
+        mOpsAdapter.setData(mItems);
+        mOperationsList.setAdapter(mOpsAdapter);
+
         return view;
     }
 
@@ -242,5 +285,159 @@ public class AppOpsDetails extends Fragment {
 
     public void setPkgName(String packageName) {
         this.mPackageName = packageName;
+    }
+
+    class AppOpsAdapter extends BaseAdapter {
+
+        private ArrayList<HashMap<String, Object>> mDatas;
+        private String lastPermGroup = "";
+
+        public AppOpsAdapter() {
+        }
+
+        public void setData(ArrayList<HashMap<String, Object>> items) {
+            this.mDatas = items;
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public int getCount() {
+            return mDatas.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            HashMap<String, Object> map = mDatas.get(position);
+            return map.get(DATA);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup viewGroup) {
+            GroupViewHolder groupViewHolder = null;
+            DataViewHolder dataViewHolder = null;
+
+            int type = getItemViewType(position);
+            switch (type) {
+                case GROUP:
+                    if (convertView == null) {
+                        convertView = mInflater.inflate(R.layout.app_ops_type_item, null);
+                        groupViewHolder = new GroupViewHolder(convertView);
+                        convertView.setTag(groupViewHolder);
+                    } else {
+                        groupViewHolder = (GroupViewHolder) convertView.getTag();
+                    }
+                    final int item = (Integer) mDatas.get(position).get(DATA);
+                    groupViewHolder.mGroupName.setText(mTypeNames[item]);
+                    groupViewHolder.mGroupSw.setChecked(
+                                        mSp.getBoolean(mTypeNames[item].toString(), true));
+                    groupViewHolder.mGroupSw.setOnCheckedChangeListener(
+                                        new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton compoundButton,
+                                                     boolean isChecked) {
+                            mSp.edit().putBoolean(mTypeNames[item].toString(),
+                                    isChecked).commit();
+                            Message message = new Message();
+                            message.what = GROUPSW_MSG;
+                            Bundle bundle = new Bundle();
+                            bundle.putInt(GROUP_ITEM, item);
+                            bundle.putBoolean(CHECKED, isChecked);
+                            message.setData(bundle);
+                            mUiHandler.sendMessage(message);
+                        }
+                    });
+                    break;
+                case ITEM:
+                    if (convertView == null) {
+                        convertView = mInflater.inflate(R.layout.app_ops_details_item, null);
+                        dataViewHolder = new DataViewHolder(convertView);
+                        convertView.setTag(dataViewHolder);
+                    } else {
+                        dataViewHolder = (DataViewHolder) convertView.getTag();
+                    }
+                    final AppOpsState.AppOpEntry entry =
+                                        (AppOpsState.AppOpEntry) getItem(position);
+                    OpEntryWrapper firstOp = entry.getOpEntry(0);
+                    final int switchOp = AppOpsManagerWrapper.opToSwitch(firstOp.getOp());
+
+                    String perm = AppOpsManagerWrapper.opToPermission(firstOp.getOp());
+                    if (perm != null) {
+                        try {
+                            PermissionInfo pi = mPm.getPermissionInfo(perm, 0);
+                            if (pi.group != null && !lastPermGroup.equals(pi.group)) {
+                                lastPermGroup = pi.group;
+                                PermissionGroupInfo pgi = mPm.getPermissionGroupInfo(pi.group, 0);
+                                if (pgi.icon != 0) {
+                                    dataViewHolder.mOpIcon.setImageDrawable(
+                                            pgi.loadIcon(mPm));
+                                }
+                            }
+                        } catch (NameNotFoundException e) {
+                        }
+                    }
+
+                    dataViewHolder.mOpName.setText(entry.getSwitchText(getActivity(), mState));
+                    dataViewHolder.mOpTime.setText(entry.getTimeText(getResources(), true));
+
+                    dataViewHolder.mOpSw.setChecked(modeToChecked(switchOp,
+                                                        entry.getPackageOps()));
+
+                    dataViewHolder.mOpSw.setOnCheckedChangeListener(
+                                        new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton compoundButton,
+                                                            boolean isChecked) {
+                            setAppOpsMode(isChecked, entry, switchOp);
+                            mUiHandler.sendEmptyMessage(ITEMSW_MSG);
+                        }
+                    });
+
+                    break;
+            }
+
+            return convertView;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            HashMap<String, Object> map = mDatas.get(position);
+            return (int) map.get(TYPE);
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return VIEW_TYPE_COUNT;
+        }
+    }
+
+    public class GroupViewHolder {
+
+        private final TextView mGroupName;
+        private final Switch mGroupSw;
+
+        public GroupViewHolder(View convertView) {
+            mGroupName = (TextView) convertView.findViewById(R.id.type_name);
+            mGroupSw = (Switch) convertView.findViewById(R.id.switchTypeWidget);
+        }
+    }
+
+    public class DataViewHolder {
+
+        private final TextView mOpName;
+        private final TextView mOpTime;
+        private final Switch mOpSw;
+        private final ImageView mOpIcon;
+
+        public DataViewHolder(View convertView) {
+            mOpName = (TextView) convertView.findViewById(R.id.op_name);
+            mOpTime = (TextView) convertView.findViewById(R.id.op_time);
+            mOpSw = (Switch) convertView.findViewById(R.id.switchWidget);
+            mOpIcon = (ImageView) convertView.findViewById(R.id.op_icon);
+        }
     }
 }
