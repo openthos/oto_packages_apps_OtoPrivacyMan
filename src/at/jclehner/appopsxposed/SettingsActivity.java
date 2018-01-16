@@ -273,10 +273,12 @@ public class SettingsActivity extends Activity
 			});
 
 			p = findPreference("version");
-			p.setTitle("AppOpsXposed " + Util.getAoxVersion(getActivity()));
+			//p.setTitle("AppOpsXposed " + Util.getAoxVersion(getActivity()));
+			p.setTitle("OtoAppOpsXposed");
 			// \u2013 is an en dash!
-			p.setSummary("Copyright (C) Joseph C. Lehner 2013\u20132015\n"
-					+ "<joseph.c.lehner@gmail.com> / caspase @XDA");
+//			p.setSummary("Copyright (C) Joseph C. Lehner 2013\u20132015\n"
+//					+ "<joseph.c.lehner@gmail.com> / caspase @XDA");
+			p.setSummary(R.string.copyright_openthos);
 			p = findPreference("build_bugreport");
 			p.setOnPreferenceClickListener(new OnPreferenceClickListener()
 			{

@@ -44,9 +44,9 @@
     <string name="note_icons_title">重要</string>
     <string name="package_updated">已更新</string>
     <string name="permissions_not_granted">无法获取 \"%1$s\" 权限。注意您必须在启用 \"%2$s\" 后重启或安装为系统应用。如果此问题一直出现，请反馈详细的错误报告！</string>
-    <string name="reset_all">重置全部</string>
+    <string name="reset_all">恢复全部权限</string>
     <string name="settings">设置</string>
-    <string name="show_changed_only_title">显示变更项</string>
+    <string name="show_changed_only_title">显示更改项</string>
     <string name="show_launcher_icon_summary">显示启动图标。 此选项仅用于设备固件设置中无法启动 \"App ops\" 。</string>
     <string name="show_launcher_icon_title">启动图标</string>
     <string name="show_pkg_notifications_summary">通知显示新的和更新的应用权限。</string>
@@ -74,5 +74,9 @@
     <string name="xposed_not_installed">Xposed Installer 并未安装到系统且您当前使用 Android 4.4+。\"%1$s\" 也许被禁用了， 您可以尝试使用下面的 \"%2$s\" 来启动它。注意，您的设备必需已 Root 并安装了 Xposed 框架。</string>
     <string name="xposed_settings_warning">当不以 Xposed 模块运行时，这些设置无效！</string>
     <string name="app_name">"权限管理器"</string>
-   
+    <string name="copyright_openthos">"权限管理器基于XPOSED框架及APPOPS XPOSED软件开发"</string>
+    <string name="ok">"确认"</string>
+    <string name="cancel">"取消"</string>
+    <string name="warning_msg">"您是否要恢复全部默认权限 ?"</string>
+
 </resources>

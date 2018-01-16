@@ -216,24 +216,36 @@ public class AppOpsSummary extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.add(R.string.show_changed_only_title)
-                                .setOnMenuItemClickListener(new OnMenuItemClickListener() {
+//        menu.add(R.string.show_changed_only_title)
+//                                .setOnMenuItemClickListener(new OnMenuItemClickListener() {
+//
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                ((PreferenceActivity) getActivity())
+//                            .startPreferenceFragment(AppListFragment.newInstance(true), true);
+//                return true;
+//            }
+//        });
+//        menu.add(R.string.settings).setOnMenuItemClickListener(new OnMenuItemClickListener() {
+//
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                getActivity().startActivity(new Intent(getActivity(), SettingsActivity.class));
+//                return true;
+//            }
+//        });
+        //inflater.inflate(R.menu.changed_list, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+        MenuItem item = menu.add(0, 0, 0, "show changed list");
+        item.setTitle(R.string.show_changed_only_title);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    }
 
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                ((PreferenceActivity) getActivity())
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        ((PreferenceActivity) getActivity())
                             .startPreferenceFragment(AppListFragment.newInstance(true), true);
-                return true;
-            }
-        });
-        menu.add(R.string.settings).setOnMenuItemClickListener(new OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                getActivity().startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
-            }
-        });
+        return true;
     }
 
     private List<ApplicationInfo> getInstalledApp() {
