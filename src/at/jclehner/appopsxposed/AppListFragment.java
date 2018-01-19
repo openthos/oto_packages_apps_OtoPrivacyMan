@@ -483,6 +483,8 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Lis
                 if (AppOpsManagerWrapper.opAllowsReset(op))
                     appOps.setMode(op, uid, packageName, AppOpsManagerWrapper.opToDefaultMode(op));
             }
+            getActivity().getSharedPreferences(
+                    packageName, Context.MODE_PRIVATE).edit().clear().commit();
         }
 
         getLoaderManager().restartLoader(0, null, this);

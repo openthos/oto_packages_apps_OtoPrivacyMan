@@ -27,6 +27,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -137,6 +138,7 @@ public class AppOpsSummary extends Fragment {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
         mPm = getActivity().getPackageManager();
+        mMyAppAdapter = new MyAppAdapter();
     }
 
     @Override
@@ -173,15 +175,15 @@ public class AppOpsSummary extends Fragment {
     }
 
     private void initData(List<ApplicationInfo> installedApp) {
-        mMyAppAdapter = new MyAppAdapter();
         mMyAppAdapter.setData(installedApp);
-        mMyAppAdapter.setSelectItem(0);
+        mMyAppAdapter.setSelectItem(mMyAppAdapter.mPosition);
         mAppList.setAdapter(mMyAppAdapter);
 
         final FragmentTransaction transaction = getActivity()
                                     .getFragmentManager().beginTransaction();
         mOpsDetails = new AppOpsDetails();
-        mOpsDetails.setPkgName(((ApplicationInfo)mAppList.getItemAtPosition(0)).packageName);
+        mOpsDetails.setPkgName(((ApplicationInfo)mAppList.
+                getItemAtPosition(mMyAppAdapter.mPosition)).packageName);
         transaction.replace(R.id.fragment_content, mOpsDetails).commit();
 
         mAppList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
