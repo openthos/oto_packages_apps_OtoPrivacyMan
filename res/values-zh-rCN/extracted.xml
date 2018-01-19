@@ -141,13 +141,16 @@
   <string name="app_ops_labels_data_connect_change">切换移动数据</string>
   <string name="app_ops_labels_su">Root 授权</string>
   <!-- Categories -->
-  <string name="app_ops_categories_location">位置</string>
-  <string name="app_ops_categories_personal">个人</string>
-  <string name="app_ops_categories_messaging">信息</string>
-  <string name="app_ops_categories_media">媒体</string>
+  <string name="app_ops_categories_calendar">日历</string>
+  <string name="app_ops_categories_contacts">通讯录</string>
+  <string name="app_ops_categories_phone">电话</string>
+  <string name="app_ops_categories_sms">短信</string>
+  <string name="app_ops_categories_storage">存储</string>
   <string name="app_ops_categories_device">设备</string>
-  <string name="app_ops_categories_bootup">启动时</string>
-  <string name="app_ops_categories_su">Root 授权</string>
+  <string name="app_ops_categories_bootup">应用自动启动</string>
+  <string name="app_ops_categories_personal">个人</string>
+  <string name="app_ops_categories_mms">彩信</string>
+  <string name="app_ops_categories_media">媒体</string>
   <!-- Misc -->
   <string name="version_text" >"版本 %1$s"</string>
   <string name="app_ops_settings" >"应用操作"</string>

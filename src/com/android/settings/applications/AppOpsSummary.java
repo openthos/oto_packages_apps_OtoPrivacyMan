@@ -57,14 +57,6 @@ public class AppOpsSummary extends Fragment {
     private View mRootView;
 
     CharSequence[] mPageNames;
-    static AppOpsState.OpsTemplate[] sPageTemplates = new AppOpsState.OpsTemplate[] {
-        AppOpsState.LOCATION_TEMPLATE,
-        AppOpsState.PERSONAL_TEMPLATE,
-        AppOpsState.MESSAGING_TEMPLATE,
-        AppOpsState.MEDIA_TEMPLATE,
-        AppOpsState.DEVICE_TEMPLATE,
-        AppOpsState.BOOTUP_TEMPLATE
-    };
 
     private ListView mAppList;
     private PackageManager mPm;

@@ -75,6 +75,7 @@ public class AppOpsDetails extends Fragment {
 
     private final String DATA = "data";
     private final String TYPE = "type";
+    private final String VISIBLE = "visible";
 
     private final int GROUP = -2;
     private final int ITEM = -3;
@@ -152,6 +153,7 @@ public class AppOpsDetails extends Fragment {
                 HashMap<String, Object> groupMap = new HashMap<>();
                 groupMap.put(TYPE, GROUP);
                 groupMap.put(DATA, i);
+                groupMap.put(VISIBLE, entries.size() >1 ? true : false);
                 mItems.add(groupMap);
             }
             for (final AppOpsState.AppOpEntry entry : entries) {
@@ -333,6 +335,8 @@ public class AppOpsDetails extends Fragment {
                     }
                     final int item = (Integer) mDatas.get(position).get(DATA);
                     groupViewHolder.mGroupName.setText(mTypeNames[item]);
+                    final boolean visible = (boolean) mDatas.get(position).get(VISIBLE);
+                    groupViewHolder.mGroupSw.setVisibility(visible ? View.VISIBLE : View.GONE);
                     groupViewHolder.mGroupSw.setChecked(
                                         mSp.getBoolean(mTypeNames[item].toString(), true));
                     groupViewHolder.mGroupSw.setOnCheckedChangeListener(

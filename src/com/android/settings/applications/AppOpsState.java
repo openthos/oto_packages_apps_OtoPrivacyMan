@@ -123,17 +123,13 @@ public class AppOpsState {
     }
 
     public static final OpsTemplate LOCATION_TEMPLATE = new OpsTemplate(
-            new int[] { AppOpsManagerWrapper.OP_COARSE_LOCATION,
-                    AppOpsManagerWrapper.OP_FINE_LOCATION,
-                    AppOpsManagerWrapper.OP_GPS,
+            new int[] { AppOpsManagerWrapper.OP_GPS,
                     AppOpsManagerWrapper.OP_WIFI_SCAN,
                     AppOpsManagerWrapper.OP_NEIGHBORING_CELLS,
                     AppOpsManagerWrapper.OP_MONITOR_LOCATION,
                     AppOpsManagerWrapper.OP_MONITOR_HIGH_POWER_LOCATION,
                     AppOpsManagerWrapper.OP_MOCK_LOCATION, },
-            new boolean[] { true,
-                    true,
-                    false,
+            new boolean[] { false,
                     false,
                     false,
                     false,
@@ -141,22 +137,58 @@ public class AppOpsState {
                     true}
             );
 
-    public static final OpsTemplate PERSONAL_TEMPLATE = new OpsTemplate(
+    public static final OpsTemplate CALENDAR_TEMPLATE = new OpsTemplate(
+            new int[] { AppOpsManagerWrapper.OP_READ_CALENDAR,
+                    AppOpsManagerWrapper.OP_WRITE_CALENDAR},
+            new boolean[] { true, true}
+    );
+
+    public static final OpsTemplate CONTACTS_TEMPLATE = new OpsTemplate(
             new int[] { AppOpsManagerWrapper.OP_READ_CONTACTS,
                     AppOpsManagerWrapper.OP_WRITE_CONTACTS,
-                    AppOpsManagerWrapper.OP_READ_CALL_LOG,
+                    AppOpsManagerWrapper.OP_DELETE_CONTACTS},
+            new boolean[] { true, true, true}
+    );
+
+    public static final OpsTemplate PHONE_TEMPLATE = new OpsTemplate(
+            new int[] { AppOpsManagerWrapper.OP_READ_CALL_LOG,
                     AppOpsManagerWrapper.OP_WRITE_CALL_LOG,
-                    AppOpsManagerWrapper.OP_READ_CALENDAR,
-                    AppOpsManagerWrapper.OP_WRITE_CALENDAR,
                     AppOpsManagerWrapper.OP_DELETE_CALL_LOG,
-                    AppOpsManagerWrapper.OP_DELETE_CONTACTS,
-                    AppOpsManagerWrapper.OP_ACCESS_XIAOMI_ACCOUNT,
+                    AppOpsManagerWrapper.OP_CALL_PHONE,
                     AppOpsManagerWrapper.OP_READ_PHONE_STATE,
-                    AppOpsManagerWrapper.OP_PROCESS_OUTGOING_CALLS,
+                    AppOpsManagerWrapper.OP_PROCESS_OUTGOING_CALLS },
+            new boolean[] { true, true, true, true, true, true}
+    );
+
+    public static final OpsTemplate SMS_TEMPLATE = new OpsTemplate(
+            new int[] { AppOpsManagerWrapper.OP_READ_SMS,
+                    AppOpsManagerWrapper.OP_RECEIVE_SMS,
+                    AppOpsManagerWrapper.OP_RECEIVE_EMERGECY_SMS,
+                    AppOpsManagerWrapper.OP_WRITE_SMS,
+                    AppOpsManagerWrapper.OP_SEND_SMS,
+                    AppOpsManagerWrapper.OP_READ_ICC_SMS,
+                    AppOpsManagerWrapper.OP_WRITE_ICC_SMS,
+                    AppOpsManagerWrapper.OP_DELETE_SMS },
+            new boolean[] { true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true }
+    );
+
+    public static final OpsTemplate STORAGE_TEMPLATE = new OpsTemplate(
+            new int[] { AppOpsManagerWrapper.OP_READ_EXTERNAL_STORAGE,
+                    AppOpsManagerWrapper.OP_WRITE_EXTERNAL_STORAGE },
+            new boolean[] { true, true}
+    );
+
+    public static final OpsTemplate PERSONAL_TEMPLATE = new OpsTemplate(
+            new int[] { AppOpsManagerWrapper.OP_ACCESS_XIAOMI_ACCOUNT,
                     AppOpsManagerWrapper.OP_USE_FINGERPRINT,
                     AppOpsManagerWrapper.OP_BODY_SENSORS,
-                    AppOpsManagerWrapper.OP_READ_EXTERNAL_STORAGE,
-                    AppOpsManagerWrapper.OP_WRITE_EXTERNAL_STORAGE,
                     AppOpsManagerWrapper.OP_GET_ACCOUNTS,
                     AppOpsManagerWrapper.OP_READ_CLIPBOARD,
                     AppOpsManagerWrapper.OP_WRITE_CLIPBOARD },
@@ -164,46 +196,19 @@ public class AppOpsState {
                     true,
                     true,
                     true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
                     false,
                     false }
             );
 
-    public static final OpsTemplate MESSAGING_TEMPLATE = new OpsTemplate(
-            new int[] { AppOpsManagerWrapper.OP_READ_SMS,
-                    AppOpsManagerWrapper.OP_RECEIVE_SMS,
-                    AppOpsManagerWrapper.OP_RECEIVE_EMERGECY_SMS,
+    public static final OpsTemplate MMS_TEMPLATE = new OpsTemplate(
+            new int[] {
                     AppOpsManagerWrapper.OP_RECEIVE_MMS,
                     AppOpsManagerWrapper.OP_RECEIVE_WAP_PUSH,
-                    AppOpsManagerWrapper.OP_WRITE_SMS,
-                    AppOpsManagerWrapper.OP_SEND_SMS,
-                    AppOpsManagerWrapper.OP_READ_ICC_SMS,
-                    AppOpsManagerWrapper.OP_WRITE_ICC_SMS,
                     AppOpsManagerWrapper.OP_SEND_MMS,
                     AppOpsManagerWrapper.OP_READ_MMS,
-                    AppOpsManagerWrapper.OP_DELETE_SMS,
                     AppOpsManagerWrapper.OP_DELETE_MMS,
                     AppOpsManagerWrapper.OP_WRITE_MMS },
             new boolean[] { true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
                     true,
                     true,
                     true,
@@ -213,7 +218,6 @@ public class AppOpsState {
 
     public static final OpsTemplate MEDIA_TEMPLATE = new OpsTemplate(
             new int[] { AppOpsManagerWrapper.OP_VIBRATE,
-                    AppOpsManagerWrapper.OP_CAMERA,
                     AppOpsManagerWrapper.OP_RECORD_AUDIO,
                     AppOpsManagerWrapper.OP_PLAY_AUDIO,
                     AppOpsManagerWrapper.OP_TAKE_MEDIA_BUTTONS,
@@ -229,11 +233,9 @@ public class AppOpsState {
                     AppOpsManagerWrapper.OP_AUDIO_MATV_VOLUME,
                     AppOpsManagerWrapper.OP_WRITE_WALLPAPER,
                     AppOpsManagerWrapper.OP_ASSIST_SCREENSHOT,
-                    AppOpsManagerWrapper.OP_ASSIST_STRUCTURE,
-                    AppOpsManagerWrapper.OP_MUTE_MICROPHONE, },
+                    AppOpsManagerWrapper.OP_ASSIST_STRUCTURE,},
             new boolean[] { false,
                     true,
-                    true,
                     false,
                     false,
                     false,
@@ -244,7 +246,6 @@ public class AppOpsState {
                     false,
                     false,
                     false,
-                    true,
                     true,
                     true,
                     true,
@@ -262,10 +263,13 @@ public class AppOpsState {
         }
     }
 
-    public static final OpsTemplate DEVICE_TEMPLATE = new OpsTemplate(
+    public static final OpsTemplate OTHER_TEMPLATE = new OpsTemplate(
             new int[] { OP_POST_NOTIFICATION,
+                    AppOpsManagerWrapper.OP_CAMERA,
+                    AppOpsManagerWrapper.OP_MUTE_MICROPHONE,
+                    AppOpsManagerWrapper.OP_COARSE_LOCATION,
+                    AppOpsManagerWrapper.OP_FINE_LOCATION,
                     AppOpsManagerWrapper.OP_ACCESS_NOTIFICATIONS,
-                    AppOpsManagerWrapper.OP_CALL_PHONE,
                     AppOpsManagerWrapper.OP_ADD_VOICEMAIL,
                     AppOpsManagerWrapper.OP_USE_SIP,
                     AppOpsManagerWrapper.OP_READ_CELL_BROADCASTS,
@@ -304,6 +308,9 @@ public class AppOpsState {
                     true,
                     true,
                     true,
+                    true,
+                    true,
+                    true,
                     true,  }
             );
 
@@ -315,8 +322,9 @@ public class AppOpsState {
             );
 
     public static final OpsTemplate[] ALL_TEMPLATES = new OpsTemplate[] {
-            LOCATION_TEMPLATE, PERSONAL_TEMPLATE, MESSAGING_TEMPLATE,
-            MEDIA_TEMPLATE, DEVICE_TEMPLATE, BOOTUP_TEMPLATE
+            CALENDAR_TEMPLATE, CONTACTS_TEMPLATE, PHONE_TEMPLATE,
+            SMS_TEMPLATE, STORAGE_TEMPLATE, OTHER_TEMPLATE, BOOTUP_TEMPLATE,
+            PERSONAL_TEMPLATE, MMS_TEMPLATE, MEDIA_TEMPLATE,
     };
 
     /**

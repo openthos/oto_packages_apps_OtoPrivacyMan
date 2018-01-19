@@ -88,7 +88,7 @@
 	<string name="enable_module">AppOpsXposed is not running as an Xposed module; activate it in %1$s!</string>
 	<string name="cannot_enable">AppOpsXposed is not running as an Xposed module, and Xposed is not installed on your system.</string>
 	<string name="install_system_app_helper">Install system-app helper (requires root)?</string>
-	<string name="app_name">"AppOpsXposed"</string>
+	<string name="app_name">"OTOPrivacyMan"</string>
 	<string name="no_app">No applications</string>
 	<string name="copyright_openthos">"OtoAppOpsXposed  is based on XPOSED framework and APPOPS XPOSED Application development"</string>
     <string name="ok">OK</string>

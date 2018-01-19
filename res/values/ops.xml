@@ -170,14 +170,17 @@ THE EXTRACTOR SCRIPT WILL FAIL OTHERWISE!
     <string name="app_ops_labels_body_sensors">@string/app_ops_summaries_body_sensors</string>
     <string name="app_ops_labels_read_cell_broadcasts">@string/app_ops_summaries_read_cell_broadcasts</string>
     
-    <string name="app_ops_categories_location">Location</string>
-    <string name="app_ops_categories_personal">Personal</string>
-    <string name="app_ops_categories_messaging">Messaging</string>
-    <string name="app_ops_categories_media">Media</string>
+    <string name="app_ops_categories_calendar">Calendar</string>
+    <string name="app_ops_categories_contacts">Contacts</string>
+    <string name="app_ops_categories_phone">Phone</string>
+    <string name="app_ops_categories_sms">SMS</string>
+    <string name="app_ops_categories_storage">Storage</string>
     <string name="app_ops_categories_device">Device</string>
     <string name="app_ops_categories_bootup">Bootup</string>
-    <string name="app_ops_categories_su">Root</string>
-    
+    <string name="app_ops_categories_personal">Personal</string>
+    <string name="app_ops_categories_mms">MMS</string>
+    <string name="app_ops_categories_media">Media</string>
+
     <string name="app_ops_settings">App ops</string>
     <string name="version_text">version %1$s</string>
     <string name="app_ops_running">Running</string>

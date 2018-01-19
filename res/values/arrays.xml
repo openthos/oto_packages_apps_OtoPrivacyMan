@@ -8,13 +8,16 @@
     </string-array>
 
     <string-array name="app_ops_categories">
-        <item>@string/app_ops_categories_location</item>
-        <item>@string/app_ops_categories_personal</item>
-        <item>@string/app_ops_categories_messaging</item>
-        <item>@string/app_ops_categories_media</item>
+        <item>@string/app_ops_categories_calendar</item>
+        <item>@string/app_ops_categories_contacts</item>
+        <item>@string/app_ops_categories_phone</item>
+        <item>@string/app_ops_categories_sms</item>
+        <item>@string/app_ops_categories_storage</item>
         <item>@string/app_ops_categories_device</item>
         <item>@string/app_ops_categories_bootup</item>
-        <item>@string/app_ops_categories_su</item>
+        <item>@string/app_ops_categories_personal</item>
+        <item>@string/app_ops_categories_mms</item>
+        <item>@string/app_ops_categories_media</item>
     </string-array>
 
     <string-array name="variants">
