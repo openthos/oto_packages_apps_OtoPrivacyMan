@@ -27,12 +27,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -43,11 +41,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import at.jclehner.appopsxposed.AppListFragment;
 import at.jclehner.appopsxposed.R;
-import at.jclehner.appopsxposed.SettingsActivity;
 import at.jclehner.appopsxposed.util.ObjectWrapper;
 
 public class AppOpsSummary extends Fragment {
@@ -64,6 +62,9 @@ public class AppOpsSummary extends Fragment {
     private MyAppAdapter mMyAppAdapter;
     private AppOpsDetails mOpsDetails;
     private View mEmptyView;
+    private String [] mApps = new String[] {
+            "com.google.android.inputmethod.pinyin",
+            "com.google.android.tts"};
 
     class MyAppAdapter extends BaseAdapter {
 
@@ -179,8 +180,7 @@ public class AppOpsSummary extends Fragment {
         mMyAppAdapter.setSelectItem(mMyAppAdapter.mPosition);
         mAppList.setAdapter(mMyAppAdapter);
 
-        final FragmentTransaction transaction = getActivity()
-                                    .getFragmentManager().beginTransaction();
+        final FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         mOpsDetails = new AppOpsDetails();
         mOpsDetails.setPkgName(((ApplicationInfo)mAppList.
                 getItemAtPosition(mMyAppAdapter.mPosition)).packageName);
@@ -247,6 +247,7 @@ public class AppOpsSummary extends Fragment {
         List<ApplicationInfo> installedApplications = mPm.getInstalledApplications(0);
         for (ApplicationInfo info : installedApplications) {
             if (info.sourceDir.indexOf("data/app") == -1) continue;
+            if (Arrays.asList(mApps).contains(info.packageName)) continue;
             lists.add(info);
         }
         return lists;

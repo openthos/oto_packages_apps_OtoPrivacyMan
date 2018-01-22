@@ -23,6 +23,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.view.View;
+
 import at.jclehner.appopsxposed.util.Constants;
 import at.jclehner.appopsxposed.util.Util;
 
@@ -62,6 +64,8 @@ public class AppOpsActivity extends PreferenceActivity {
 			ab.setPositiveButton(android.R.string.ok, null);
 			ab.show();
 		}
+		findViewById(android.R.id.title).setVisibility(View.GONE);
+		invalidateHeaders();
 	}
 
 	@Override
