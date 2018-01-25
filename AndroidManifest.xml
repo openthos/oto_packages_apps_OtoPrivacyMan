@@ -11,7 +11,7 @@
     <application android:label="@string/app_name"
         android:name=".AppOpsXposedApp"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher2"
+        android:icon="@drawable/privacy_manager"
         android:theme="@style/DefaultTheme">
         <meta-data android:name="xposedmodule" android:value="true" />
         <meta-data android:name="xposedminversion" android:value="2.0*" />
@@ -67,7 +67,8 @@
             <meta-data android:name="plugAnchorItem" android:value="apps"/>
             <meta-data android:name="plugAnchorShift" android:value="0.0"/>
             <meta-data android:name="plugLaunchType" android:value="activity"/>
-            <meta-data android:name="plugLaunchTarget" android:value="intent:#Intent;component=at.jclehner.appopsxposed/.AppOpsActivity;end"/>
+            <meta-data android:name="plugLaunchTarget" android:value=
+                    "intent:#Intent;component=at.jclehner.appopsxposed/.AppOpsActivity;end"/>
         </activity>
 
         <!--
@@ -92,7 +93,7 @@
         <activity-alias
             android:enabled="true"
             android:name=".LauncherActivity-Icon"
-            android:icon="@drawable/ic_launcher2"
+            android:icon="@drawable/privacy_manager"
             android:label="@string/app_name"
             android:targetActivity=".LauncherActivity">
            <intent-filter>

@@ -30,6 +30,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.PermissionGroupInfo;
 import android.content.pm.PermissionInfo;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -76,6 +77,7 @@ public class AppOpsDetails extends Fragment {
     private final String DATA = "data";
     private final String TYPE = "type";
     private final String VISIBLE = "visible";
+    private static final String ICON = "icon";
 
     private final int GROUP = -2;
     private final int ITEM = -3;
@@ -83,6 +85,7 @@ public class AppOpsDetails extends Fragment {
     private ArrayList<HashMap<String, Object>> mItems = null;
     private ListView mOperationsList;
     private AppOpsAdapter mOpsAdapter;
+    private String mLastPermGroup = "";
 
     // Utility method to set application label and icon.
     private void setAppLabelAndIcon(PackageInfo pkgInfo) {
@@ -160,12 +163,33 @@ public class AppOpsDetails extends Fragment {
                 HashMap<String, Object> dataMap = new HashMap<>();
                 dataMap.put(TYPE, ITEM);
                 dataMap.put(DATA, entry);
+                dataMap.put(ICON, getSwitchOpIcon(entry));
                 mItems.add(dataMap);
             }
         }
         mOpsAdapter.setData(mItems);
 
         return true;
+    }
+
+    private Drawable getSwitchOpIcon(AppOpsState.AppOpEntry entry) {
+        OpEntryWrapper firstOp = entry.getOpEntry(0);
+
+        String perm = AppOpsManagerWrapper.opToPermission(firstOp.getOp());
+        if (perm != null) {
+            try {
+                PermissionInfo pi = mPm.getPermissionInfo(perm, 0);
+                if (pi.group != null && !mLastPermGroup.equals(pi.group)) {
+                    mLastPermGroup = pi.group;
+                    PermissionGroupInfo pgi = mPm.getPermissionGroupInfo(pi.group, 0);
+                    if (pgi.icon != 0) {
+                        return pgi.loadIcon(mPm);
+                    }
+                }
+            } catch (NameNotFoundException e) {
+            }
+        }
+        return null;
     }
 
     private void setAppOpsMode(boolean isChecked, AppOpsState.AppOpEntry entry, int switchOp) {
@@ -292,7 +316,6 @@ public class AppOpsDetails extends Fragment {
     class AppOpsAdapter extends BaseAdapter {
 
         private ArrayList<HashMap<String, Object>> mDatas;
-        private String lastPermGroup = "";
 
         public AppOpsAdapter() {
         }
@@ -369,22 +392,8 @@ public class AppOpsDetails extends Fragment {
                     OpEntryWrapper firstOp = entry.getOpEntry(0);
                     final int switchOp = AppOpsManagerWrapper.opToSwitch(firstOp.getOp());
 
-                    String perm = AppOpsManagerWrapper.opToPermission(firstOp.getOp());
-                    if (perm != null) {
-                        try {
-                            PermissionInfo pi = mPm.getPermissionInfo(perm, 0);
-                            if (pi.group != null && !lastPermGroup.equals(pi.group)) {
-                                lastPermGroup = pi.group;
-                                PermissionGroupInfo pgi = mPm.getPermissionGroupInfo(pi.group, 0);
-                                if (pgi.icon != 0) {
-                                    dataViewHolder.mOpIcon.setImageDrawable(
-                                            pgi.loadIcon(mPm));
-                                }
-                            }
-                        } catch (NameNotFoundException e) {
-                        }
-                    }
-
+                    dataViewHolder.mOpIcon.setImageDrawable(
+                            (Drawable) mDatas.get(position).get(ICON));
                     dataViewHolder.mOpName.setText(entry.getSwitchText(getActivity(), mState));
                     dataViewHolder.mOpTime.setText(entry.getTimeText(getResources(), true));
 
