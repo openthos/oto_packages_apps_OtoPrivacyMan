@@ -218,7 +218,6 @@ public class AppOpsState {
 
     public static final OpsTemplate MEDIA_TEMPLATE = new OpsTemplate(
             new int[] { AppOpsManagerWrapper.OP_VIBRATE,
-                    AppOpsManagerWrapper.OP_RECORD_AUDIO,
                     AppOpsManagerWrapper.OP_PLAY_AUDIO,
                     AppOpsManagerWrapper.OP_TAKE_MEDIA_BUTTONS,
                     AppOpsManagerWrapper.OP_TAKE_AUDIO_FOCUS,
@@ -235,7 +234,6 @@ public class AppOpsState {
                     AppOpsManagerWrapper.OP_ASSIST_SCREENSHOT,
                     AppOpsManagerWrapper.OP_ASSIST_STRUCTURE,},
             new boolean[] { false,
-                    true,
                     false,
                     false,
                     false,
@@ -266,6 +264,7 @@ public class AppOpsState {
     public static final OpsTemplate OTHER_TEMPLATE = new OpsTemplate(
             new int[] { OP_POST_NOTIFICATION,
                     AppOpsManagerWrapper.OP_CAMERA,
+                    AppOpsManagerWrapper.OP_RECORD_AUDIO,
                     AppOpsManagerWrapper.OP_MUTE_MICROPHONE,
                     AppOpsManagerWrapper.OP_COARSE_LOCATION,
                     AppOpsManagerWrapper.OP_FINE_LOCATION,
@@ -289,6 +288,7 @@ public class AppOpsState {
                     AppOpsManagerWrapper.OP_WAKEUP_ALARM,
                     AppOpsManagerWrapper.OP_TOAST_WINDOW, },
             new boolean[] { false,
+                    true,
                     true,
                     true,
                     true,
