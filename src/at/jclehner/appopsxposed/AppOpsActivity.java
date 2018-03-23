@@ -64,7 +64,10 @@ public class AppOpsActivity extends PreferenceActivity {
 			ab.setPositiveButton(android.R.string.ok, null);
 			ab.show();
 		}
-		findViewById(android.R.id.title).setVisibility(View.GONE);
+        View title = findViewById(android.R.id.title);
+        if (title != null) {
+            title.setVisibility(View.GONE);
+        }
 		invalidateHeaders();
 	}
 
