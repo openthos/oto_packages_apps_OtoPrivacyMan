@@ -35,6 +35,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceActivity;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -201,7 +202,7 @@ public class AppOpsDetails extends Fragment {
     private Handler mUiHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            List<Boolean> list = new ArrayList<>();
+            List<Integer> list = new ArrayList<>();
             switch (msg.what) {
                 case ITEMSW_MSG:
                     for (int i = 0; i < AppOpsState.ALL_TEMPLATES.length - 1; i++){
@@ -212,11 +213,11 @@ public class AppOpsDetails extends Fragment {
                         for (AppOpsState.AppOpEntry entry : entries) {
                             OpEntryWrapper firstOp = entry.getOpEntry(0);
                             int switchOp = AppOpsManagerWrapper.opToSwitch(firstOp.getOp());
-                            list.add(modeToChecked(switchOp, entry.getPackageOps()));
+                            list.add(getOpaState(switchOp));
                         }
-                        if (entries.size() > 0 && !list.contains(true)) {
+                        if (entries.size() > 0 && !list.contains(0)) {
                             mSp.edit().putBoolean(mTypeNames[i].toString(), false).commit();
-                        } else if (entries.size() > 0 && list.contains(true)) {
+                        } else if (entries.size() > 0 && list.contains(0)) {
                             mSp.edit().putBoolean(mTypeNames[i].toString(), true).commit();
                         }
                     }
@@ -231,13 +232,23 @@ public class AppOpsDetails extends Fragment {
                     for (AppOpsState.AppOpEntry entry : entries) {
                         OpEntryWrapper firstOp = entry.getOpEntry(0);
                         int switchOp = AppOpsManagerWrapper.opToSwitch(firstOp.getOp());
-                        setAppOpsMode(isChecked, entry, switchOp);
+                        putOpsState(isChecked, switchOp);
                     }
                     break;
             }
             mOpsAdapter.notifyDataSetChanged();
         }
     };
+
+    private boolean putOpsState(boolean isChecked, int switchOp) {
+        return Settings.Global.putInt(getActivity().getContentResolver(),
+                mPackageName + switchOp, isChecked ? 0 : 1);
+    }
+
+    private int getOpaState(int switchOp) {
+        return Settings.Global.getInt(
+                getActivity().getContentResolver(), mPackageName + switchOp, 0);
+    }
 
     private boolean modeToChecked(int switchOp, PackageOpsWrapper ops) {
        return modeToChecked(mAppOps.checkOpNoThrow(switchOp, ops.getUid(), ops.getPackageName()));
@@ -283,7 +294,6 @@ public class AppOpsDetails extends Fragment {
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.app_ops_details, container, false);
-        //Utils.prepareCustomPreferencesList(container, view, view, false);
 
         mRootView = view;
         mOperationsList = (ListView) view.findViewById(R.id.operations_list);
@@ -397,15 +407,14 @@ public class AppOpsDetails extends Fragment {
                     dataViewHolder.mOpName.setText(entry.getSwitchText(getActivity(), mState));
                     dataViewHolder.mOpTime.setText(entry.getTimeText(getResources(), true));
 
-                    dataViewHolder.mOpSw.setChecked(modeToChecked(switchOp,
-                                                        entry.getPackageOps()));
+                    dataViewHolder.mOpSw.setChecked(getOpaState(switchOp) > 0 ? false : true);
 
                     dataViewHolder.mOpSw.setOnCheckedChangeListener(
                                         new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton compoundButton,
                                                             boolean isChecked) {
-                            setAppOpsMode(isChecked, entry, switchOp);
+                            putOpsState(isChecked, switchOp);
                             mUiHandler.sendEmptyMessage(ITEMSW_MSG);
                         }
                     });

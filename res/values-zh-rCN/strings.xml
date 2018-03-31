@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="about">关于</string>
-    <string name="advanced_settings_summary">更改这些设置会破坏 AppOpsXposed，请注意！</string>
+    <string name="advanced_settings_summary">更改这些设置会破坏 OtoPrivacyMan，请注意！</string>
     <string name="advanced_settings_title">高级</string>
-    <string name="aox_settings">AppOpsXposed 设置</string>
-    <string name="appearance_summary">个性化 AppOpsXposed 外观</string>
+    <string name="aox_settings">OtoPrivacyMan 设置</string>
+    <string name="appearance_summary">个性化 OtoPrivacyMan 外观</string>
     <string name="appearance_title">外观</string>
     <string name="automatic">（自动）</string>
     <string name="backup_create_title">导出</string>
@@ -15,13 +15,13 @@
     <string name="build_bugreport_summary">由邮件发送或发送到 Dropbox/Google Drive等，需要 Root。</string>
     <string name="build_bugreport_title">创建错误报告</string>
     <string name="building_toast">创建中…</string>
-    <string name="cannot_enable">AppOpsXposed 没有以 Xposed 模块运行，Xposed 框架未安装到系统。</string>
+    <string name="cannot_enable">OtoPrivacyMan 没有以 Xposed 模块运行，Xposed 框架未安装到系统。</string>
     <string name="checking_root">正在检查 Root…</string>
     <string name="compatibility_mode_summary">使用备选的 AppOps 启用方案以解决兼容问题。</string>
     <string name="compatibility_mode_title">兼容模式</string>
     <string name="description">在 Android 4.3+ 中启用 AppOps 并添加到内置设置中。</string>
     <string name="dont_show_again">不再显示</string>
-    <string name="enable_module">AppOpsXposed 没有以 Xposed 模块运行，请在 %1$s 中激活！</string>
+    <string name="enable_module">OtoPrivacyMan 没有以 Xposed 模块运行，请在 %1$s 中激活！</string>
     <string name="failed">失败</string>
     <string name="failsafe_mode_summary">使用 \"App ops工作所需的最小补丁，此时启动图标必须打开。当您遇到崩溃时尝试此选项。</string>
     <string name="failsafe_mode_title">保险模式</string>

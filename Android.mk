@@ -19,7 +19,7 @@ LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/res
 
 LOCAL_SDK_VERSION := current
 
-LOCAL_PACKAGE_NAME := OtoAppOpsXposed
+LOCAL_PACKAGE_NAME := OtoPrivacyMan
 LOCAL_CERTIFICATE := platform
 
 LOCAL_PROGUARD_FLAG_FILES := proguard.flags
