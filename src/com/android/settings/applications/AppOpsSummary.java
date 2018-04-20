@@ -44,9 +44,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import at.jclehner.appopsxposed.AppListFragment;
-import at.jclehner.appopsxposed.R;
-import at.jclehner.appopsxposed.util.ObjectWrapper;
+import org.openthos.privacyman.AppListFragment;
+import org.openthos.privacyman.R;
+import org.openthos.privacyman.util.ObjectWrapper;
 
 public class AppOpsSummary extends Fragment {
     // layout inflater object used to inflate views

@@ -1,6 +1,6 @@
 package de.robv.android.xposed;
 
-import at.jclehner.appopsxposed.util.Util;
+import org.openthos.privacyman.util.Util;
 
 public final class XC_MethodHookRecursive extends XC_MethodHook
 {

@@ -42,7 +42,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import at.jclehner.appopsxposed.R;
+import org.openthos.privacyman.R;
 
 import com.android.settings.applications.AppOpsState.AppOpEntry;
 

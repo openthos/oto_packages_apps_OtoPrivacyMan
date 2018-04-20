@@ -22,12 +22,14 @@
 
         <PreferenceCategory android:title="@string/icons">
 
-            <at.jclehner.appopsxposed.IconPreference android:key="icon_appinfo"
+            <org.openthos.privacyman.IconPreference
+                android:key="icon_appinfo"
                 android:title="@string/icon_appinfo_title"
                 android:summary="@string/icon_appinfo_summary"
                 android:defaultValue="0" />
 
-            <at.jclehner.appopsxposed.IconPreference android:key="icon_settings"
+            <org.openthos.privacyman.IconPreference
+                android:key="icon_settings"
                 android:title="@string/icon_settings_title"
                 android:summary="@string/icon_settings_summary"
                 android:defaultValue="0" />

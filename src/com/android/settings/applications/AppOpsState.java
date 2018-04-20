@@ -43,11 +43,11 @@ import android.text.format.DateUtils;
 import android.text.style.StrikethroughSpan;
 import android.util.Log;
 import android.util.SparseArray;
-import at.jclehner.appopsxposed.R;
-import at.jclehner.appopsxposed.util.AppOpsManagerWrapper;
-import at.jclehner.appopsxposed.util.AppOpsManagerWrapper.OpEntryWrapper;
-import at.jclehner.appopsxposed.util.AppOpsManagerWrapper.PackageOpsWrapper;
-import at.jclehner.appopsxposed.util.OpsLabelHelper;
+import org.openthos.privacyman.R;
+import org.openthos.privacyman.util.AppOpsManagerWrapper;
+import org.openthos.privacyman.util.AppOpsManagerWrapper.OpEntryWrapper;
+import org.openthos.privacyman.util.AppOpsManagerWrapper.PackageOpsWrapper;
+import org.openthos.privacyman.util.OpsLabelHelper;
 
 public class AppOpsState {
     static final String TAG = "AppOpsState";

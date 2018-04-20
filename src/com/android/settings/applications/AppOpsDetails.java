@@ -48,10 +48,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import at.jclehner.appopsxposed.R;
-import at.jclehner.appopsxposed.util.AppOpsManagerWrapper;
-import at.jclehner.appopsxposed.util.AppOpsManagerWrapper.OpEntryWrapper;
-import at.jclehner.appopsxposed.util.AppOpsManagerWrapper.PackageOpsWrapper;
+import org.openthos.privacyman.R;
+import org.openthos.privacyman.util.AppOpsManagerWrapper;
+import org.openthos.privacyman.util.AppOpsManagerWrapper.OpEntryWrapper;
+import org.openthos.privacyman.util.AppOpsManagerWrapper.PackageOpsWrapper;
 
 public class AppOpsDetails extends Fragment {
     static final String TAG = "AppOpsDetails";
