@@ -144,7 +144,8 @@ public class AppOpsDetails extends Fragment {
         }
 
         setAppLabelAndIcon(mPackageInfo);
-        mSp = getActivity().getSharedPreferences(mPackageInfo.packageName, Context.MODE_PRIVATE);
+        mSp = getActivity().getSharedPreferences(
+                mPackageInfo.packageName, Context.MODE_WORLD_READABLE);
 
         mTypeNames = getActivity().getResources().getTextArray(R.array.app_ops_categories);
 

@@ -18,10 +18,16 @@
 
 package org.openthos.privacyman.util;
 
+import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -179,6 +185,49 @@ public final class Util {
 		return context.getSharedPreferences(context.getPackageName() + "_preferences",
 				Context.MODE_WORLD_READABLE);
 	}
+
+    public static String[] getLocation() {
+        HttpURLConnection connection = null;
+        Reader read;
+        BufferedReader bufferReader;
+        String[] location = new String[]{};
+        try {
+            String locationurl = "https://www.iplocationtools.com";
+            URL url = new URL(locationurl);
+            connection = (HttpURLConnection) url.openConnection();
+
+            connection.setConnectTimeout(8000);
+            connection.setRequestMethod("GET");
+            connection.setReadTimeout(8000);
+            InputStream in = connection.getInputStream();
+            read = new InputStreamReader(connection.getInputStream());
+            bufferReader = new BufferedReader(read);
+
+            String str;
+            StringBuffer buffer = new StringBuffer();
+            while ((str = bufferReader.readLine()) != null) {
+                if (str.contains("fa fa-map-marker")) {
+                    buffer.append(str + "\n");
+                }
+            }
+
+            read.close();
+            connection.disconnect();
+
+            location = buffer.toString().split("\\(");
+            location = location[1].split("\\)");
+            location = location[0].split(",");
+
+            return location;
+
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+        return location;
+    }
 
 	public static void dumpViewHierarchy(View v) {
 		debug("dumpViewHierarchy: ");
