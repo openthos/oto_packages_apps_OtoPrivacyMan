@@ -67,6 +67,10 @@ public class AppOpsActivity extends PreferenceActivity {
             title.setVisibility(View.GONE);
         }
 		invalidateHeaders();
+
+        Intent i = new Intent(this, LocationService.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startService(i);
 	}
 
 	@Override
